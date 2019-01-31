@@ -6,6 +6,7 @@ ldSlider = (opt={}) ->
     ld$.attr @input, \type, \hidden
     @root = root = document.createElement("div")
     @input.parentNode.insertBefore @root, @input
+  @root._ldrs = @
   @root.classList.add \ldrs
   @root.innerHTML = """
     <div class="bar">
@@ -65,6 +66,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     @el.h.l.innerText = @opt.min
     @el.h.r.innerText = @opt.max
     @el.h.p.innerText = @opt.from
+    @update!
   set-config: (opt={}) -> @opt <<< opt; @prepare!
   set: (v) ->
     @value = v

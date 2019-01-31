@@ -7,7 +7,6 @@
     width: 100%
     position: relative
     padding: 0 0
-    background: #ff0
     .cap
       background: #f00
       width: 10px
@@ -57,13 +56,14 @@
     background: #eee
     color: #aaa
     font-family: sans-serif
-    padding: 0 4px 0
+    padding: 1px 4px 2px
     font-size: 10px
     display: inline-block
     border-radius: 3px
     position: absolute
-    top: 15px
+    top: 18px
     user-select: none
+    line-height: 1em
   .hint.l
     left: 0
   .hint.r
@@ -82,21 +82,25 @@
       width: 0px
       height: 0px
       transform: translate(-3px,-3px) rotate(45deg)
-      border: 3px solid #f00
+      border-style: solid
+      border-width: 4px 3px 3px 3px
       border-color: #f00 transparent transparent #f00
 
 .ldrs.up
   .ptr
-    top: 12px
-  .bar
     top: 15px
+  .bar
+    top: 18px
   .hint
     top: 0
 
   .hint.p
+    margin-left: 1px
     &:after
       top: auto
       bottom: 0
       transform: translate(-3px,3px) rotate(45deg)
+      border-style: solid
+      border-width: 3px 3px 4px 3px
       border-color: transparent #f00 #f00 transparent
 

@@ -19,6 +19,7 @@ ldSlider = function(opt){
     this.root = root = document.createElement("div");
     this.input.parentNode.insertBefore(this.root, this.input);
   }
+  this.root._ldrs = this;
   this.root.classList.add('ldrs');
   this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"bk\"></div>\n  <div class=\"fg\"></div>\n  <div class=\"cap\"></div>\n</div>\n<div class=\"ptr\"></div>\n<div class=\"hint l\"></div>\n<div class=\"hint r\"></div>\n<div class=\"hint p\"></div>";
   this.el = el = {
@@ -86,7 +87,8 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   prepare: function(){
     this.el.h.l.innerText = this.opt.min;
     this.el.h.r.innerText = this.opt.max;
-    return this.el.h.p.innerText = this.opt.from;
+    this.el.h.p.innerText = this.opt.from;
+    return this.update();
   },
   setConfig: function(opt){
     opt == null && (opt = {});
