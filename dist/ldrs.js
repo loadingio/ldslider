@@ -10,6 +10,7 @@ ldSlider = function(opt){
     from: 0,
     step: 1
   }, opt);
+  this.value = this.opt.from;
   this.root = root = typeof opt.root === 'string'
     ? document.querySelector(opt.root)
     : opt.root;
@@ -35,22 +36,7 @@ ldSlider = function(opt){
   };
   mouse = {
     move: function(e){
-      var box, b, x, ref$, ref1$, ref2$, ref3$, old;
-      box = el.p.parentNode.getBoundingClientRect();
-      b = [10, box.width - 10];
-      x = (ref$ = (ref2$ = e.clientX - box.x) > (ref3$ = b[0]) ? ref2$ : ref3$) < (ref1$ = b[1]) ? ref$ : ref1$;
-      old = this$.value;
-      this$.value = (this$.opt.max - this$.opt.min) * ((x - b[0]) / (b[1] - b[0])) + this$.opt.min;
-      this$.value = Math.round(this$.value / this$.opt.step) * this$.opt.step;
-      if (old === this$.value) {
-        return;
-      }
-      el.p.style.left = x + "px";
-      el.h.p.innerText = Math.round(10000 * this$.value) / 10000;
-      box = el.h.p.getBoundingClientRect();
-      el.h.p.style.left = (x - Math.round(box.width * 0.5) + 1) + "px";
-      el.b.fg.style.width = (x - 10) + "px";
-      return this$.fire('change', this$.value);
+      return this$.tmp(e.clientX, true, true);
     },
     up: function(){
       document.removeEventListener('mouseup', mouse.up);
@@ -95,21 +81,43 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     import$(this.opt, opt);
     return this.prepare();
   },
-  set: function(v){
-    var box, b, ref$, ref1$, ref2$, x;
-    this.value = v;
-    box = this.root.getBoundingClientRect();
-    b = [14, box.width - 10 - 4];
-    v = Math.round(((ref$ = v > (ref2$ = this.opt.min) ? v : ref2$) < (ref1$ = this.opt.max) ? ref$ : ref1$) / this.opt.step) * this.opt.step;
-    x = ((v - this.opt.min) / (this.opt.max - this.opt.min)) * (b[1] - b[0]) + b[0];
-    this.el.h.p.innerText = Math.round(10000 * v) / 10000;
-    box = this.el.h.p.getBoundingClientRect();
-    this.el.h.p.style.left = (x - Math.round(box.width * 0.5) + 1) + "px";
-    this.el.p.style.left = x + "px";
-    return this.el.b.fg.style.width = (x - 10) + "px";
+  set: function(v, forceNotify){
+    forceNotify == null && (forceNotify = false);
+    return this.tmp(v, forceNotify);
   },
   get: function(){
     return this.value;
+  }
+  /* v is e.clientX or value, depends on is-event */,
+  tmp: function(v, forceNotify, isEvent){
+    /* normalize value and position */
+    var old, box, b, x, ref$, ref1$, ref2$, ref3$, toP;
+    forceNotify == null && (forceNotify = false);
+    isEvent == null && (isEvent = false);
+    old = this.value;
+    box = this.el.p.parentNode.getBoundingClientRect();
+    b = [10, box.width - 10];
+    if (isEvent) {
+      x = (ref$ = (ref2$ = v - box.x) > (ref3$ = b[0]) ? ref2$ : ref3$) < (ref1$ = b[1]) ? ref$ : ref1$;
+      this.value = (this.opt.max - this.opt.min) * ((x - b[0]) / (b[1] - b[0])) + this.opt.min;
+    } else {
+      this.value = v;
+    }
+    this.value = v = (ref$ = (ref2$ = Math.round(this.value / this.opt.step) * this.opt.step) > (ref3$ = this.opt.min) ? ref2$ : ref3$) < (ref1$ = this.opt.max) ? ref$ : ref1$;
+    x = ((this.value - this.opt.min) / (this.opt.max - this.opt.min)) * (b[1] - b[0]) + b[0];
+    /* update value and position into view */
+    toP = function(it){
+      return 100 * (it - b[0]) / (b[1] - b[0]);
+    };
+    this.el.h.p.innerText = Math.round(10000 * v) / 10000;
+    box = this.el.h.p.getBoundingClientRect();
+    this.el.h.p.style.left = toP(x - Math.round(box.width * 0.5) + 1) + "%";
+    this.el.p.style.left = toP(x) + "%";
+    this.el.b.fg.style.width = toP(x - 10) + "%";
+    /* notification if necessary*/
+    if (v !== old && forceNotify) {
+      return this.fire('change', this.value);
+    }
   }
 });
 function import$(obj, src){
