@@ -95,9 +95,13 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     import$(this.opt, opt);
     return this.prepare();
   },
-  set: function(v){
+  set: function(v, forceNotify){
     var box, b, ref$, ref1$, ref2$, x;
+    forceNotify == null && (forceNotify = false);
     this.value = v;
+    if (this.value !== v && forceNotify) {
+      this.fire('change', v);
+    }
     box = this.root.getBoundingClientRect();
     b = [14, box.width - 10 - 4];
     v = Math.round(((ref$ = v > (ref2$ = this.opt.min) ? v : ref2$) < (ref1$ = this.opt.max) ? ref$ : ref1$) / this.opt.step) * this.opt.step;

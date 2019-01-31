@@ -68,8 +68,9 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     @el.h.p.innerText = @opt.from
     @update!
   set-config: (opt={}) -> @opt <<< opt; @prepare!
-  set: (v) ->
+  set: (v, force-notify=false) ->
     @value = v
+    if @value != v and force-notify => @fire \change, v
     box = @root.getBoundingClientRect!
     b = [14, box.width - 10 - 4] # TODO as member
     v = Math.round((v >? @opt.min <? @opt.max) / @opt.step) * @opt.step

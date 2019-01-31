@@ -10,6 +10,15 @@ tiny range slider library.
     ldrs.set(value);
 ```
 
+Available methods:
+
+ * set(value, forceNotify): set slider's value. Notify listeners if forceNotify = true and value is changed.
+ * get: get slider's value.
+ * setConfig(config): update slider's config. 
+ * on("change", cb): listen to value change.
+ * update: update ui. useful when your slider is out of place ( sometimes due to toggle display and set value when widget is not visible.)
+
+
 configs: 
 
  * root: when the range slider kicks in.
