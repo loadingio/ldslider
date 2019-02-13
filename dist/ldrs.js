@@ -22,7 +22,7 @@ ldSlider = function(opt){
   }
   this.root._ldrs = this;
   this.root.classList.add('ldrs');
-  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"bk\"></div>\n  <div class=\"fg\"></div>\n  <div class=\"cap\"></div>\n</div>\n<div class=\"ptr\"></div>\n<div class=\"hint l\"></div>\n<div class=\"hint r\"></div>\n<div class=\"hint p\"></div>";
+  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"ptr\"></div>\n    <div class=\"hint p\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint r\"></div>";
   this.el = el = {
     b: {
       fg: ld$.find(root, '.fg', 0)
@@ -36,7 +36,7 @@ ldSlider = function(opt){
   };
   mouse = {
     move: function(e){
-      return this$.tmp(e.clientX, true, true);
+      return this$.repos(e.clientX, true, true);
     },
     up: function(){
       document.removeEventListener('mouseup', mouse.up);
@@ -83,37 +83,34 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   },
   set: function(v, forceNotify){
     forceNotify == null && (forceNotify = false);
-    return this.tmp(v, forceNotify);
+    return this.repos(v, forceNotify);
   },
   get: function(){
     return this.value;
   }
   /* v is e.clientX or value, depends on is-event */,
-  tmp: function(v, forceNotify, isEvent){
+  repos: function(v, forceNotify, isEvent){
     /* normalize value and position */
-    var old, box, b, x, ref$, ref1$, ref2$, ref3$, toP;
+    var old, rbox, x, ref$, ref1$, ref2$, ref3$, hbox;
     forceNotify == null && (forceNotify = false);
     isEvent == null && (isEvent = false);
     old = this.value;
-    box = this.el.p.parentNode.getBoundingClientRect();
-    b = [10, box.width - 10];
+    rbox = this.el.p.parentNode.getBoundingClientRect();
     if (isEvent) {
-      x = (ref$ = (ref2$ = v - box.x) > (ref3$ = b[0]) ? ref2$ : ref3$) < (ref1$ = b[1]) ? ref$ : ref1$;
-      this.value = (this.opt.max - this.opt.min) * ((x - b[0]) / (b[1] - b[0])) + this.opt.min;
+      x = (ref$ = (ref2$ = v - rbox.x) > 0 ? ref2$ : 0) < (ref1$ = rbox.width) ? ref$ : ref1$;
+      this.value = (this.opt.max - this.opt.min) * (x / rbox.width) + this.opt.min;
     } else {
       this.value = v;
     }
     this.value = v = (ref$ = (ref2$ = Math.round(this.value / this.opt.step) * this.opt.step) > (ref3$ = this.opt.min) ? ref2$ : ref3$) < (ref1$ = this.opt.max) ? ref$ : ref1$;
-    x = ((this.value - this.opt.min) / (this.opt.max - this.opt.min)) * (b[1] - b[0]) + b[0];
+    x = 100 * ((this.value - this.opt.min) / (this.opt.max - this.opt.min));
     /* update value and position into view */
-    toP = function(it){
-      return 100 * (it - b[0]) / (b[1] - b[0]);
-    };
+    hbox = this.el.h.p.getBoundingClientRect();
     this.el.h.p.innerText = Math.round(10000 * v) / 10000;
-    box = this.el.h.p.getBoundingClientRect();
-    this.el.h.p.style.left = toP(x - Math.round(box.width * 0.5) + 1) + "%";
-    this.el.p.style.left = toP(x) + "%";
-    this.el.b.fg.style.width = toP(x - 10) + "%";
+    this.el.h.p.style.left = 100 * (0.01 * x * rbox.width) / rbox.width + "%";
+    this.el.h.p.style.transform = "translate(-50%,0)";
+    this.el.p.style.left = x + "%";
+    this.el.b.fg.style.width = x + "%";
     /* notification if necessary*/
     if (v !== old && forceNotify) {
       return this.fire('change', this.value);
