@@ -1,19 +1,26 @@
 .ldrs
+  .bar .cap, .bar .fg, .ptr:after, .hint.p
+    background: #f00
+  .bar .cap:nth-child(2), .bar .bk, .hint, .lock-line:after
+    background: #eee
+  .hint
+    color: #aaa
+  .hint.p
+    color: #fff
+
+.ldrs
   position: relative
   height: 34px
   padding: 0 10px
   .bar, .fg, .bk, .cap
     height: 12px
   .bar-inner
-    background: #00f
     width: 100%
     height: 100%
   .bar
     width: 100%
     position: relative
-    background: #0f0
     .cap
-      background: #f00
       width: 10px
       position: absolute
     .cap:nth-child(1)
@@ -22,25 +29,22 @@
       left: -10px
     .cap:nth-child(2)
       border-radius: 0 5px 5px 0
-      background: #eee
       top: 0
       right: -10px
     .fg
       width: 50%
-      background: #f00
       position: absolute
       left: 0
       right: 50px
       width: auto
       top: 0
     .bk
-      background: #eee
       position: absolute
       top: 0
       left: 0
       right: 0
       width: auto
-  .ptr
+  .ptr, .lock-line
     position: absolute
     width: 9px
     height: 21px
@@ -49,17 +53,15 @@
     margin-left: -3px
     cursor: pointer
     background: rgba(255,255,255,0.01)
+    z-index: 1
     &:after
       content: " "
       display: block
       width: 3px
       height: 100%
       margin-left: 3px
-      background: #f00
-      border-radius: 12x
+      border-radius: 12px
   .hint
-    background: #eee
-    color: #aaa
     font-family: sans-serif
     padding: 1px 4px 2px
     font-size: 10px
@@ -75,11 +77,24 @@
     left: 0
   .hint.r
     right: 0
+  .hint.lock
+    right: 40%
+    margin-right: -6px
+    display: none
+  .bar .lock-line
+    padding: 0
+    right: 40%
+    margin-right: -6px
+    left: auto
+    display: none
+    z-index: 0
   .hint.p
-    background: #f00
-    color: #fff
     cursor: pointer
     z-index: 1
+
+.ldrs.limit
+  .hint.lock, .lock-line
+    display: block
 
 .ldrs.up
   .ptr

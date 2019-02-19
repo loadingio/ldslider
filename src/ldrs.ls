@@ -9,6 +9,7 @@ ldSlider = (opt={}) ->
     @input.parentNode.insertBefore @root, @input
   @root._ldrs = @
   @root.classList.add \ldrs
+  if @opt.limit-max? => @root.classList.add \limit
   @root.innerHTML = """
     <div class="bar">
       <div class="cap"></div>
@@ -17,10 +18,12 @@ ldSlider = (opt={}) ->
         <div class="bk"></div>
         <div class="fg"></div>
         <div class="ptr"></div>
+        <div class="lock-line"></div>
         <div class="hint p"></div>
       </div>
     </div>
     <div class="hint l"></div>
+    <div class="hint lock"></div>
     <div class="hint r"></div>
   """
 
@@ -31,13 +34,16 @@ ldSlider = (opt={}) ->
       p: ld$.find(root, '.hint.p', 0)
       l: ld$.find(root, '.hint.l', 0)
       r: ld$.find(root, '.hint.r', 0)
+      lock: ld$.find(root, '.hint.lock', 0)
+      lock-line: ld$.find(root, '.lock-line', 0)
 
   mouse = do
     move: (e) ~> @repos e.clientX, true, true
 
-    up: ->
+    up: ~>
       document.removeEventListener \mouseup, mouse.up
       document.removeEventListener \mousemove, mouse.move
+      @el.h.p.innerText = Math.round(10000 * @value) / 10000
     prepare: ->
       document.addEventListener \mousemove, mouse.move
       document.addEventListener \mouseup, mouse.up
@@ -56,6 +62,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
   prepare: ->
     @el.h.l.innerText = @opt.min
     @el.h.r.innerText = @opt.max
+    @el.h.lock.innerHTML = """<i class="i-lock"></i>"""
     @el.h.p.innerText = @opt.from
     @update!
   set-config: (opt={}) -> @opt <<< opt; @prepare!
@@ -66,13 +73,17 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
   repos: (v, force-notify=false, is-event=false)->
     /* normalize value and position */
     old = @value
+    max = if @opt.limit-max? => @opt.limit-max / 0.6 else @opt.max
     rbox = @el.p.parentNode.getBoundingClientRect!
     if is-event =>
       x = ( v - rbox.x ) >? 0 <? rbox.width
-      @value = (@opt.max - @opt.min) * (x / rbox.width ) + @opt.min
+      @value = (max - @opt.min) * (x / rbox.width) + @opt.min
     else @value = v
-    @value = v = (Math.round(@value / @opt.step) * @opt.step) >? @opt.min <? @opt.max
-    x = 100 * ((@value - @opt.min) / (@opt.max - @opt.min)) #* (b.1 - b.0) + b.0
+    @value = v = (Math.round(@value / @opt.step) * @opt.step) >? @opt.min <? max
+    x = 100 * ((@value - @opt.min) / (max - @opt.min))
+    if @opt.limit-max? =>
+      if x > 60 => x = 60
+      if @value > @opt.limit-max => @value = v = @opt.limit-max
 
     /* update value and position into view */
     hbox = @el.h.p.getBoundingClientRect!

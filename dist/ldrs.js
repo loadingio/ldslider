@@ -22,7 +22,10 @@ ldSlider = function(opt){
   }
   this.root._ldrs = this;
   this.root.classList.add('ldrs');
-  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"ptr\"></div>\n    <div class=\"hint p\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint r\"></div>";
+  if (this.opt.limitMax) {
+    this.root.classList.add('limit');
+  }
+  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"ptr\"></div>\n    <div class=\"lock-line\"></div>\n    <div class=\"hint p\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint lock\"></div>\n<div class=\"hint r\"></div>";
   this.el = el = {
     b: {
       fg: ld$.find(root, '.fg', 0)
@@ -31,7 +34,9 @@ ldSlider = function(opt){
     h: {
       p: ld$.find(root, '.hint.p', 0),
       l: ld$.find(root, '.hint.l', 0),
-      r: ld$.find(root, '.hint.r', 0)
+      r: ld$.find(root, '.hint.r', 0),
+      lock: ld$.find(root, '.hint.lock', 0),
+      lockLine: ld$.find(root, '.lock-line', 0)
     }
   };
   mouse = {
@@ -40,7 +45,8 @@ ldSlider = function(opt){
     },
     up: function(){
       document.removeEventListener('mouseup', mouse.up);
-      return document.removeEventListener('mousemove', mouse.move);
+      document.removeEventListener('mousemove', mouse.move);
+      return this$.el.h.p.innerText = Math.round(10000 * this$.value) / 10000;
     },
     prepare: function(){
       document.addEventListener('mousemove', mouse.move);
@@ -73,6 +79,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   prepare: function(){
     this.el.h.l.innerText = this.opt.min;
     this.el.h.r.innerText = this.opt.max;
+    this.el.h.lock.innerHTML = "<i class=\"i-lock\"></i>";
     this.el.h.p.innerText = this.opt.from;
     return this.update();
   },
@@ -91,19 +98,30 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   /* v is e.clientX or value, depends on is-event */,
   repos: function(v, forceNotify, isEvent){
     /* normalize value and position */
-    var old, rbox, x, ref$, ref1$, ref2$, ref3$, hbox;
+    var old, max, rbox, x, ref$, ref1$, ref2$, hbox;
     forceNotify == null && (forceNotify = false);
     isEvent == null && (isEvent = false);
     old = this.value;
+    max = this.opt.limitMax != null
+      ? this.opt.limitMax / 0.6
+      : this.opt.max;
     rbox = this.el.p.parentNode.getBoundingClientRect();
     if (isEvent) {
       x = (ref$ = (ref2$ = v - rbox.x) > 0 ? ref2$ : 0) < (ref1$ = rbox.width) ? ref$ : ref1$;
-      this.value = (this.opt.max - this.opt.min) * (x / rbox.width) + this.opt.min;
+      this.value = (max - this.opt.min) * (x / rbox.width) + this.opt.min;
     } else {
       this.value = v;
     }
-    this.value = v = (ref$ = (ref2$ = Math.round(this.value / this.opt.step) * this.opt.step) > (ref3$ = this.opt.min) ? ref2$ : ref3$) < (ref1$ = this.opt.max) ? ref$ : ref1$;
-    x = 100 * ((this.value - this.opt.min) / (this.opt.max - this.opt.min));
+    this.value = v = (ref$ = (ref1$ = Math.round(this.value / this.opt.step) * this.opt.step) > (ref2$ = this.opt.min) ? ref1$ : ref2$) < max ? ref$ : max;
+    x = 100 * ((this.value - this.opt.min) / (max - this.opt.min));
+    if (this.opt.limitMax != null) {
+      if (x > 60) {
+        x = 60;
+      }
+      if (this.value > this.opt.limitMax) {
+        this.value = v = this.opt.limitMax;
+      }
+    }
     /* update value and position into view */
     hbox = this.el.h.p.getBoundingClientRect();
     this.el.h.p.innerText = Math.round(10000 * v) / 10000;
