@@ -9,7 +9,6 @@ ldSlider = (opt={}) ->
     @input.parentNode.insertBefore @root, @input
   @root._ldrs = @
   @root.classList.add \ldrs
-  if @opt.limit-max? => @root.classList.add \limit
   @root.innerHTML = """
     <div class="bar">
       <div class="cap"></div>
@@ -64,6 +63,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     @el.h.r.innerText = @opt.max
     @el.h.lock.innerHTML = """<i class="i-lock"></i>"""
     @el.h.p.innerText = @opt.from
+    @root.classList[if @opt.limit-max? => \add else \remove] \limit
     @update!
   set-config: (opt={}) -> @opt <<< opt; @prepare!
   set: (v, force-notify=false) -> @repos v, force-notify

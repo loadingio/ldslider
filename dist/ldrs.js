@@ -22,9 +22,6 @@ ldSlider = function(opt){
   }
   this.root._ldrs = this;
   this.root.classList.add('ldrs');
-  if (this.opt.limitMax) {
-    this.root.classList.add('limit');
-  }
   this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"ptr\"></div>\n    <div class=\"lock-line\"></div>\n    <div class=\"hint p\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint lock\"></div>\n<div class=\"hint r\"></div>";
   this.el = el = {
     b: {
@@ -81,6 +78,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     this.el.h.r.innerText = this.opt.max;
     this.el.h.lock.innerHTML = "<i class=\"i-lock\"></i>";
     this.el.h.p.innerText = this.opt.from;
+    this.root.classList[this.opt.limitMax != null ? 'add' : 'remove']('limit');
     return this.update();
   },
   setConfig: function(opt){
