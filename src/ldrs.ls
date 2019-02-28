@@ -65,7 +65,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     @el.h.p.innerText = @opt.from
     @root.classList[if @opt.limit-max? => \add else \remove] \limit
     @update!
-  set-config: (opt={}) -> @opt <<< opt; @prepare!
+  set-config: (opt={}) -> @opt = {} <<< opt; @prepare!
   set: (v, force-notify=false) -> @repos v, force-notify
   get: -> @value
 

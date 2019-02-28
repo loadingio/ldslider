@@ -83,7 +83,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   },
   setConfig: function(opt){
     opt == null && (opt = {});
-    import$(this.opt, opt);
+    this.opt = import$({}, opt);
     return this.prepare();
   },
   set: function(v, forceNotify){
