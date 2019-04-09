@@ -73,15 +73,22 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
   repos: (v, force-notify=false, is-event=false)->
     /* normalize value and position */
     old = @value
-    max = if @opt.limit-max? => @opt.limit-max / 0.6 else @opt.max
     rbox = @el.p.parentNode.getBoundingClientRect!
+    w06 = rbox.width * 0.6
     if is-event =>
       x = ( v - rbox.x ) >? 0 <? rbox.width
-      @value = (max - @opt.min) * (x / rbox.width) + @opt.min
+      @value = (@opt.max - @opt.min) * (x / rbox.width) + @opt.min
+      if @opt.limit-max? =>
+        if x > w06 => @value = @opt.limit-max + (@opt.max - @opt.limit-max) * (x - w06) / ( rbox.width - w06 )
+        else => @value = @opt.min + @opt.limit-max * (x / w06)
     else @value = v
-    @value = v = (Math.round(@value / @opt.step) * @opt.step) >? @opt.min <? max
-    x = 100 * ((@value - @opt.min) / (max - @opt.min))
+    @value = v = (Math.round(@value / @opt.step) * @opt.step) >? @opt.min <? @opt.max
     if @opt.limit-max? =>
+      if v > @opt.limit-max => x = (v - @opt.limit-max) / (@opt.max - @opt.limit-max) * 40 + 60
+      else => x = 60 * (v - @opt.min) / (@opt.limit-max - @opt.min)
+    else x = 100 * ((@value - @opt.min) / (@opt.max - @opt.min))
+
+    if @opt.limit-max? and @opt.limit-hard =>
       if x > 60 => x = 60
       if @value > @opt.limit-max => @value = v = @opt.limit-max
 

@@ -96,23 +96,36 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   /* v is e.clientX or value, depends on is-event */,
   repos: function(v, forceNotify, isEvent){
     /* normalize value and position */
-    var old, max, rbox, x, ref$, ref1$, ref2$, hbox;
+    var old, rbox, w06, x, ref$, ref1$, ref2$, ref3$, hbox;
     forceNotify == null && (forceNotify = false);
     isEvent == null && (isEvent = false);
     old = this.value;
-    max = this.opt.limitMax != null
-      ? this.opt.limitMax / 0.6
-      : this.opt.max;
     rbox = this.el.p.parentNode.getBoundingClientRect();
+    w06 = rbox.width * 0.6;
     if (isEvent) {
       x = (ref$ = (ref2$ = v - rbox.x) > 0 ? ref2$ : 0) < (ref1$ = rbox.width) ? ref$ : ref1$;
-      this.value = (max - this.opt.min) * (x / rbox.width) + this.opt.min;
+      this.value = (this.opt.max - this.opt.min) * (x / rbox.width) + this.opt.min;
+      if (this.opt.limitMax != null) {
+        if (x > w06) {
+          this.value = this.opt.limitMax + (this.opt.max - this.opt.limitMax) * (x - w06) / (rbox.width - w06);
+        } else {
+          this.value = this.opt.min + this.opt.limitMax * (x / w06);
+        }
+      }
     } else {
       this.value = v;
     }
-    this.value = v = (ref$ = (ref1$ = Math.round(this.value / this.opt.step) * this.opt.step) > (ref2$ = this.opt.min) ? ref1$ : ref2$) < max ? ref$ : max;
-    x = 100 * ((this.value - this.opt.min) / (max - this.opt.min));
+    this.value = v = (ref$ = (ref2$ = Math.round(this.value / this.opt.step) * this.opt.step) > (ref3$ = this.opt.min) ? ref2$ : ref3$) < (ref1$ = this.opt.max) ? ref$ : ref1$;
     if (this.opt.limitMax != null) {
+      if (v > this.opt.limitMax) {
+        x = (v - this.opt.limitMax) / (this.opt.max - this.opt.limitMax) * 40 + 60;
+      } else {
+        x = 60 * (v - this.opt.min) / (this.opt.limitMax - this.opt.min);
+      }
+    } else {
+      x = 100 * ((this.value - this.opt.min) / (this.opt.max - this.opt.min));
+    }
+    if (this.opt.limitMax != null && this.opt.limitHard) {
       if (x > 60) {
         x = 60;
       }
