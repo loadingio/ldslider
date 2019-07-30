@@ -114,22 +114,6 @@
 .ldrs.limit .lock-line {
   display: block;
 }
-.ldrs.up .ptr {
-  top: -5px;
-}
-.ldrs.up .bar {
-  top: 18px;
-}
-.ldrs.up .hint {
-  top: 0;
-}
-.ldrs.up .hint.p {
-  top: auto;
-  bottom: 17px;
-}
-.ldrs.up .hint.p {
-  margin-left: 1px;
-}
 .ldrs {
   height: 2.25em;
   padding: 0.2em 10px;
@@ -195,4 +179,43 @@
 }
 .ldrs.ldrs-lg .hint.p {
   top: 1.71875em;
+}
+.ldrs.up .bar {
+  top: 1.075em;
+}
+.ldrs.up .ptr,
+.ldrs.up .lock-line {
+  top: -0.775em;
+}
+.ldrs.up .hint {
+  top: 0.1em;
+}
+.ldrs.up .hint.p {
+  top: -1.775em;
+}
+.ldrs.ldrs-sm.up .bar {
+  top: 0.9125em;
+}
+.ldrs.ldrs-sm.up .ptr,
+.ldrs.ldrs-sm.up .lock-line {
+  top: -0.7125em;
+}
+.ldrs.ldrs-sm.up .hint {
+  top: 0em;
+}
+.ldrs.ldrs-sm.up .hint.p {
+  top: -1.5125em;
+}
+.ldrs.ldrs-lg.up .bar {
+  top: 1.25em;
+}
+.ldrs.ldrs-lg.up .ptr,
+.ldrs.ldrs-lg.up .lock-line {
+  top: -1.2em;
+}
+.ldrs.ldrs-lg.up .hint {
+  top: 0.3em;
+}
+.ldrs.ldrs-lg.up .hint.p {
+  top: -1.8em;
 }
