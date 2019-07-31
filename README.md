@@ -33,6 +33,8 @@ configs:
 Add following css classes to decorate your range slider:
 
  * up - force all tips toward up.
+ * ldrs-sm - small size slider
+ * ldrs-lg - large size slider
 
 
 Some quick and useful tweaks:
