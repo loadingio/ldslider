@@ -11,6 +11,10 @@ ldSlider = function(opt){
     step: 1
   }, opt);
   this.value = this.opt.from;
+  if (this.opt.exp) {
+    this.expFactor = Math.log(this.opt.exp.output || this.opt.max - this.opt.min) / Math.log(this.opt.exp.input);
+  }
+  console.log(this.expFactor);
   this.root = root = typeof opt.root === 'string'
     ? document.querySelector(opt.root)
     : opt.root;
@@ -96,7 +100,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   /* v is e.clientX or value, depends on is-event */,
   repos: function(v, forceNotify, isEvent){
     /* normalize value and position */
-    var old, rbox, w06, x, ref$, ref1$, ref2$, ref3$, hbox;
+    var old, rbox, w06, x, ref$, ref1$, ref2$, dx, ref3$, hbox;
     forceNotify == null && (forceNotify = false);
     isEvent == null && (isEvent = false);
     old = this.value;
@@ -104,12 +108,20 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     w06 = rbox.width * 0.6;
     if (isEvent) {
       x = (ref$ = (ref2$ = v - rbox.x) > 0 ? ref2$ : 0) < (ref1$ = rbox.width) ? ref$ : ref1$;
-      this.value = (this.opt.max - this.opt.min) * (x / rbox.width) + this.opt.min;
+      dx = x / rbox.width;
+      if (this.expFactor) {
+        dx = Math.pow(dx, this.expFactor);
+      }
+      this.value = this.opt.min + (this.opt.max - this.opt.min) * dx;
       if (this.opt.limitMax != null) {
         if (x > w06) {
           this.value = this.opt.limitMax + (this.opt.max - this.opt.limitMax) * (x - w06) / (rbox.width - w06);
         } else {
-          this.value = this.opt.min + this.opt.limitMax * (x / w06);
+          dx = x / w06;
+          if (this.expFactor) {
+            dx = Math.pow(dx, this.expFactor);
+          }
+          this.value = this.opt.min + this.opt.limitMax * dx;
         }
       }
     } else {
@@ -120,10 +132,18 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
       if (v > this.opt.limitMax) {
         x = (v - this.opt.limitMax) / (this.opt.max - this.opt.limitMax) * 40 + 60;
       } else {
-        x = 60 * (v - this.opt.min) / (this.opt.limitMax - this.opt.min);
+        if (this.expFactor) {
+          x = 60 * Math.pow((v - this.opt.min) / (this.opt.limitMax - this.opt.min), 1 / this.expFactor);
+        } else {
+          x = 60 * (v - this.opt.min) / (this.opt.limitMax - this.opt.min);
+        }
       }
     } else {
-      x = 100 * ((this.value - this.opt.min) / (this.opt.max - this.opt.min));
+      if (this.expFactor) {
+        x = 100 * Math.pow((this.value - this.opt.min) / (this.opt.max - this.opt.min), 1 / this.expFactor);
+      } else {
+        x = 100 * ((this.value - this.opt.min) / (this.opt.max - this.opt.min));
+      }
     }
     if (this.opt.limitMax != null && this.opt.limitHard) {
       if (x > 60) {

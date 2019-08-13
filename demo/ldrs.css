@@ -18,14 +18,6 @@
 }
 .ldrs {
   position: relative;
-  height: 34px;
-  padding: 0 10px;
-}
-.ldrs .bar,
-.ldrs .fg,
-.ldrs .bk,
-.ldrs .cap {
-  height: 12px;
 }
 .ldrs .bar-inner {
   width: 100%;
@@ -68,8 +60,6 @@
 .ldrs .lock-line {
   position: absolute;
   width: 9px;
-  height: 21px;
-  top: -3px;
   left: 0;
   margin-left: -3px;
   cursor: pointer;
@@ -92,7 +82,6 @@
   display: inline-block;
   border-radius: 3px;
   position: absolute;
-  top: 18px;
   user-select: none;
   line-height: 1em;
   z-index: 0;
@@ -125,19 +114,108 @@
 .ldrs.limit .lock-line {
   display: block;
 }
-.ldrs.up .ptr {
-  top: -5px;
+.ldrs {
+  height: 2.25em;
+  padding: 0.2em 10px;
+}
+.ldrs .bar,
+.ldrs .fg,
+.ldrs .bk,
+.ldrs .cap {
+  height: 0.875em;
+}
+.ldrs .ptr,
+.ldrs .lock-line {
+  top: -0.2em;
+  height: 1.875em;
+}
+.ldrs .hint {
+  top: 2.035em;
+  font-size: 0.7em;
+}
+.ldrs .hint.p {
+  top: 1.75em;
+}
+.ldrs.ldrs-sm {
+  height: 1.9125em;
+  padding: 0.1em 10px;
+}
+.ldrs.ldrs-sm .bar,
+.ldrs.ldrs-sm .fg,
+.ldrs.ldrs-sm .bk,
+.ldrs.ldrs-sm .cap {
+  height: 0.7em;
+}
+.ldrs.ldrs-sm .ptr,
+.ldrs.ldrs-sm .lock-line {
+  top: -0.1em;
+  height: 1.7125em;
+}
+.ldrs.ldrs-sm .hint {
+  top: 1.6663em;
+  font-size: 0.65em;
+}
+.ldrs.ldrs-sm .hint.p {
+  top: 1.5125em;
+}
+.ldrs.ldrs-lg {
+  height: 2.875em;
+  padding: 0.375em 10px;
+}
+.ldrs.ldrs-lg .bar,
+.ldrs.ldrs-lg .fg,
+.ldrs.ldrs-lg .bk,
+.ldrs.ldrs-lg .cap {
+  height: 1em;
+}
+.ldrs.ldrs-lg .ptr,
+.ldrs.ldrs-lg .lock-line {
+  top: -0.375em;
+  height: 2.5em;
+}
+.ldrs.ldrs-lg .hint {
+  top: 2.1875em;
+  font-size: 0.8em;
+}
+.ldrs.ldrs-lg .hint.p {
+  top: 1.71875em;
 }
 .ldrs.up .bar {
-  top: 18px;
+  top: 1.075em;
+}
+.ldrs.up .ptr,
+.ldrs.up .lock-line {
+  top: -0.775em;
 }
 .ldrs.up .hint {
-  top: 0;
+  top: 0.1em;
 }
 .ldrs.up .hint.p {
-  top: auto;
-  bottom: 17px;
+  top: -1.775em;
 }
-.ldrs.up .hint.p {
-  margin-left: 1px;
+.ldrs.ldrs-sm.up .bar {
+  top: 0.9125em;
+}
+.ldrs.ldrs-sm.up .ptr,
+.ldrs.ldrs-sm.up .lock-line {
+  top: -0.7125em;
+}
+.ldrs.ldrs-sm.up .hint {
+  top: 0em;
+}
+.ldrs.ldrs-sm.up .hint.p {
+  top: -1.5125em;
+}
+.ldrs.ldrs-lg.up .bar {
+  top: 1.25em;
+}
+.ldrs.ldrs-lg.up .ptr,
+.ldrs.ldrs-lg.up .lock-line {
+  top: -1.2em;
+}
+.ldrs.ldrs-lg.up .hint {
+  top: 0.3em;
+}
+.ldrs.ldrs-lg.up .hint.p {
+  top: -1.8em;
 }

@@ -1,6 +1,9 @@
 ldSlider = (opt={}) ->
   @ <<< evt-handler: {}, opt: {min: 0, max: 100, from: 0, step: 1} <<< opt
   @value = @opt.from
+  # exponential slider. use exp: {value, percent} to control its shape.
+  if @opt.exp => @exp-factor = Math.log(@opt.exp.output or (@opt.max - @opt.min)) / Math.log(@opt.exp.input)
+  console.log @exp-factor
   @root = root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if @root.tagName == \INPUT =>
     @input = @root
@@ -77,16 +80,25 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     w06 = rbox.width * 0.6
     if is-event =>
       x = ( v - rbox.x ) >? 0 <? rbox.width
-      @value = (@opt.max - @opt.min) * (x / rbox.width) + @opt.min
+      dx = (x / rbox.width)
+      if @exp-factor => dx = Math.pow(dx, @exp-factor)
+      @value = @opt.min + (@opt.max - @opt.min) * dx
       if @opt.limit-max? =>
         if x > w06 => @value = @opt.limit-max + (@opt.max - @opt.limit-max) * (x - w06) / ( rbox.width - w06 )
-        else => @value = @opt.min + @opt.limit-max * (x / w06)
+        else
+          dx = (x / w06)
+          if @exp-factor => dx = Math.pow dx, @exp-factor
+          @value = @opt.min + @opt.limit-max * dx
     else @value = v
     @value = v = (Math.round(@value / @opt.step) * @opt.step) >? @opt.min <? @opt.max
     if @opt.limit-max? =>
       if v > @opt.limit-max => x = (v - @opt.limit-max) / (@opt.max - @opt.limit-max) * 40 + 60
-      else => x = 60 * (v - @opt.min) / (@opt.limit-max - @opt.min)
-    else x = 100 * ((@value - @opt.min) / (@opt.max - @opt.min))
+      else
+        if @exp-factor => x = 60 * Math.pow((v - @opt.min) / (@opt.limit-max - @opt.min), 1/@exp-factor)
+        else x = 60 * (v - @opt.min) / (@opt.limit-max - @opt.min)
+    else
+      if @exp-factor => x = 100 * Math.pow(((@value - @opt.min) / (@opt.max - @opt.min)), 1/@exp-factor)
+      else x = 100 * ((@value - @opt.min) / (@opt.max - @opt.min))
 
     if @opt.limit-max? and @opt.limit-hard =>
       if x > 60 => x = 60

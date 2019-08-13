@@ -1,6 +1,6 @@
 # ldSlider
 
-tiny range slider library.
+Slider Library in Vanilla JS. Support exponential scale.
 
 
 ## Usage
@@ -26,6 +26,12 @@ configs:
  * max: maximal value
  * step: each step when dragging
  * from: default value
+ * exp: setup exponential scale.
+   - exp.percent: when slider to move this percent ...
+   - exp.value: ... the value should be map to this percent. 
+   - for example:
+     - {output: 0.9, input: 0.1} lets the slider to output 90% from min to max when slider is in the 10% position.
+     - {output: 0.5, input: 0.5} equals to linear scale.
 
 
 ## Decorating Classes

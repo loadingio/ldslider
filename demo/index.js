@@ -16,3 +16,28 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(50);
+ldrs = new ldSlider({
+  root: ld$.find(document, '.ldrs', 2),
+  min: 0,
+  exp: {
+    output: 0.9,
+    input: 0.5
+  }
+});
+ldrs.on('change', function(it){
+  return console.log('changed:', it);
+});
+ldrs.set(50);
+ldrs = new ldSlider({
+  root: ld$.find(document, '.ldrs', 3),
+  min: 0,
+  exp: {
+    output: 0.9,
+    input: 0.5
+  },
+  limitMax: 60
+});
+ldrs.on('change', function(it){
+  return console.log('changed:', it);
+});
+ldrs.set(50);
