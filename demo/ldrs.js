@@ -14,7 +14,6 @@ ldSlider = function(opt){
   if (this.opt.exp) {
     this.expFactor = Math.log(this.opt.exp.output || this.opt.max - this.opt.min) / Math.log(this.opt.exp.input);
   }
-  console.log(this.expFactor);
   this.root = root = typeof opt.root === 'string'
     ? document.querySelector(opt.root)
     : opt.root;

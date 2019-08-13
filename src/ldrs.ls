@@ -3,7 +3,6 @@ ldSlider = (opt={}) ->
   @value = @opt.from
   # exponential slider. use exp: {value, percent} to control its shape.
   if @opt.exp => @exp-factor = Math.log(@opt.exp.output or (@opt.max - @opt.min)) / Math.log(@opt.exp.input)
-  console.log @exp-factor
   @root = root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if @root.tagName == \INPUT =>
     @input = @root
