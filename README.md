@@ -32,6 +32,10 @@ configs:
    - for example:
      - {output: 0.9, input: 0.1} lets the slider to output 90% from min to max when slider is in the 10% position.
      - {output: 0.5, input: 0.5} equals to linear scale.
+ * label: custom label.
+   - label.min - text for showing in minimal value label
+   - label.max - text for showing in maximal value label
+   - label.ptr(v) - function that convert v ( value ) to the returned customized string that representing v.
 
 
 ## Decorating Classes
