@@ -14,6 +14,11 @@ ldSlider = function(opt){
   if (this.opt.exp) {
     this.expFactor = Math.log(this.opt.exp.output || this.opt.max - this.opt.min) / Math.log(this.opt.exp.input);
   }
+  this.label = import$({
+    ptr: function(it){
+      return it;
+    }
+  }, this.opt.label || {});
   this.root = root = typeof opt.root === 'string'
     ? document.querySelector(opt.root)
     : opt.root;
@@ -46,7 +51,7 @@ ldSlider = function(opt){
     up: function(){
       document.removeEventListener('mouseup', mouse.up);
       document.removeEventListener('mousemove', mouse.move);
-      return this$.el.h.p.innerText = Math.round(10000 * this$.value) / 10000;
+      return this$.el.h.p.innerText = this$.label.ptr(Math.round(10000 * this$.value) / 10000);
     },
     prepare: function(){
       document.addEventListener('mousemove', mouse.move);
@@ -77,10 +82,14 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     return this.set(this.value);
   },
   prepare: function(){
-    this.el.h.l.innerText = this.opt.min;
-    this.el.h.r.innerText = this.opt.max;
+    this.el.h.l.innerText = this.label.min != null
+      ? this.label.min
+      : this.opt.min;
+    this.el.h.r.innerText = this.label.max != null
+      ? this.label.max
+      : this.opt.max;
     this.el.h.lock.innerHTML = "<i class=\"i-lock\"></i>";
-    this.el.h.p.innerText = this.opt.from;
+    this.el.h.p.innerText = this.label.ptr(this.opt.from);
     this.root.classList[this.opt.limitMax != null ? 'add' : 'remove']('limit');
     return this.update();
   },
@@ -154,7 +163,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     }
     /* update value and position into view */
     hbox = this.el.h.p.getBoundingClientRect();
-    this.el.h.p.innerText = Math.round(10000 * v) / 10000;
+    this.el.h.p.innerText = this.label.ptr(Math.round(10000 * v) / 10000);
     this.el.h.p.style.left = 100 * (0.01 * x * rbox.width) / rbox.width + "%";
     this.el.h.p.style.transform = "translate(-50%,0)";
     this.el.p.style.left = x + "%";

@@ -3,6 +3,7 @@ ldSlider = (opt={}) ->
   @value = @opt.from
   # exponential slider. use exp: {value, percent} to control its shape.
   if @opt.exp => @exp-factor = Math.log(@opt.exp.output or (@opt.max - @opt.min)) / Math.log(@opt.exp.input)
+  @label = {ptr:(->it)} <<< (@opt.label or {})
   @root = root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if @root.tagName == \INPUT =>
     @input = @root
@@ -44,7 +45,7 @@ ldSlider = (opt={}) ->
     up: ~>
       document.removeEventListener \mouseup, mouse.up
       document.removeEventListener \mousemove, mouse.move
-      @el.h.p.innerText = Math.round(10000 * @value) / 10000
+      @el.h.p.innerText = @label.ptr(Math.round(10000 * @value) / 10000)
     prepare: ->
       document.addEventListener \mousemove, mouse.move
       document.addEventListener \mouseup, mouse.up
@@ -61,10 +62,10 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
   fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
   update: -> @set @value
   prepare: ->
-    @el.h.l.innerText = @opt.min
-    @el.h.r.innerText = @opt.max
+    @el.h.l.innerText = if @label.min? => @label.min else @opt.min
+    @el.h.r.innerText = if @label.max? => @label.max else @opt.max
     @el.h.lock.innerHTML = """<i class="i-lock"></i>"""
-    @el.h.p.innerText = @opt.from
+    @el.h.p.innerText = @label.ptr(@opt.from)
     @root.classList[if @opt.limit-max? => \add else \remove] \limit
     @update!
   set-config: (opt={}) -> @opt = {} <<< opt; @prepare!
@@ -105,7 +106,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
 
     /* update value and position into view */
     hbox = @el.h.p.getBoundingClientRect!
-    @el.h.p.innerText = Math.round(10000 * v) / 10000
+    @el.h.p.innerText = @label.ptr(Math.round(10000 * v) / 10000)
     @el.h.p.style.left = "#{100 * (0.01 * x * rbox.width) / rbox.width}%"
     @el.h.p.style.transform = "translate(-50%,0)"
     @el.p.style.left = "#x%"
