@@ -10,6 +10,8 @@ ldSlider = (opt={}) ->
     ld$.attr @input, \type, \hidden
     @root = root = document.createElement("div")
     @input.parentNode.insertBefore @root, @input
+    @input.classList
+    for i from 0 til @input.classList.length => @root.classList.add @input.classList[i]
   @root._ldrs = @
   @root.classList.add \ldrs
   @root.innerHTML = """
