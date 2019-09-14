@@ -81,7 +81,6 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     if (this.opt.from != null) {
       this.value = this.opt.from;
     }
-    console.log("opt.from: ", this.value, this.opt.from);
     if (this.opt.exp) {
       this.expFactor = Math.log(this.opt.exp.output || this.opt.max - this.opt.min) / Math.log(this.opt.exp.input);
     }
@@ -111,7 +110,6 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     return this.repos(v, forceNotify);
   },
   get: function(){
-    console.log("getting: ", this.value);
     return this.value;
   }
   /* v is e.clientX or value, depends on is-event */,
@@ -144,9 +142,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     } else {
       this.value = v;
     }
-    console.log("repos: before", this.value, this.opt.step, this.opt.min, this.opt.max);
     this.value = v = (ref$ = (ref2$ = this.opt.min + Math.round((this.value - this.opt.min) / this.opt.step) * this.opt.step) > (ref3$ = this.opt.min) ? ref2$ : ref3$) < (ref1$ = this.opt.max) ? ref$ : ref1$;
-    console.log("repos: after", this.value);
     if (this.opt.limitMax != null) {
       if (v > this.opt.limitMax) {
         x = (v - this.opt.limitMax) / (this.opt.max - this.opt.limitMax) * 40 + 60;
