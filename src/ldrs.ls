@@ -1,9 +1,5 @@
 ldSlider = (opt={}) ->
   @ <<< evt-handler: {}, opt: {min: 0, max: 100, from: 0, step: 1} <<< opt
-  @value = @opt.from
-  # exponential slider. use exp: {value, percent} to control its shape.
-  if @opt.exp => @exp-factor = Math.log(@opt.exp.output or (@opt.max - @opt.min)) / Math.log(@opt.exp.input)
-  @label = {ptr:(->it)} <<< (@opt.label or {})
   @root = root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if @root.tagName == \INPUT =>
     @input = @root
@@ -64,6 +60,10 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
   fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
   update: -> @set @value
   prepare: ->
+    if @opt.from? => @value = @opt.from
+    # exponential slider. use exp: {value, percent} to control its shape.
+    if @opt.exp => @exp-factor = Math.log(@opt.exp.output or (@opt.max - @opt.min)) / Math.log(@opt.exp.input)
+    @label = {ptr:(->it)} <<< (@opt.label or {})
     @el.h.l.innerText = if @label.min? => @label.min else @opt.min
     @el.h.r.innerText = if @label.max? => @label.max else @opt.max
     @el.h.lock.innerHTML = """<i class="i-lock"></i>"""
@@ -92,7 +92,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
           if @exp-factor => dx = Math.pow dx, @exp-factor
           @value = @opt.min + @opt.limit-max * dx
     else @value = v
-    @value = v = (Math.round(@value / @opt.step) * @opt.step) >? @opt.min <? @opt.max
+    @value = v = (@opt.min + Math.round((@value - @opt.min) / @opt.step) * @opt.step) >? @opt.min <? @opt.max
     if @opt.limit-max? =>
       if v > @opt.limit-max => x = (v - @opt.limit-max) / (@opt.max - @opt.limit-max) * 40 + 60
       else
