@@ -41,3 +41,13 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(50);
+ldrs = new ldSlider({
+  root: ld$.find(document, '.ldrs', 4),
+  min: 1,
+  max: 11,
+  step: 2
+});
+ldrs.on('change', function(it){
+  return console.log('changed:', it);
+});
+ldrs.set(8);
