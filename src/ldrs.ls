@@ -63,7 +63,12 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     if @opt.from? => @value = @opt.from
     # exponential slider. use exp: {value, percent} to control its shape.
     if @opt.exp => @exp-factor = Math.log(@opt.exp.output or (@opt.max - @opt.min)) / Math.log(@opt.exp.input)
-    @label = {ptr:(->it)} <<< (@opt.label or {})
+    @label = {
+      ptr: ~>
+        if it == @opt.min and @label.min? => @label.min
+        else if it == @opt.max and @label.max? => @label.max
+        else it
+    } <<< (@opt.label or {})
     @el.h.l.innerText = if @label.min? => @label.min else @opt.min
     @el.h.r.innerText = if @label.max? => @label.max else @opt.max
     @el.h.lock.innerHTML = """<i class="i-lock"></i>"""
