@@ -78,6 +78,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     return this.set(this.value);
   },
   prepare: function(){
+    var this$ = this;
     if (this.opt.from != null) {
       this.value = this.opt.from;
     }
@@ -86,7 +87,13 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     }
     this.label = import$({
       ptr: function(it){
-        return it;
+        if (it === this$.opt.min && this$.label.min != null) {
+          return this$.label.min;
+        } else if (it === this$.opt.max && this$.label.max != null) {
+          return this$.label.max;
+        } else {
+          return it;
+        }
       }
     }, this.opt.label || {});
     this.el.h.l.innerText = this.label.min != null
