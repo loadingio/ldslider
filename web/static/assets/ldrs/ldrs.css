@@ -16,6 +16,9 @@
 .ldrs .hint.p {
   color: #fff;
 }
+input.ldrs {
+  display: none;
+}
 .ldrs {
   position: relative;
 }
