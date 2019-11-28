@@ -65,6 +65,16 @@
   ldcv = new ldCover({
     root: ld$.find(document, '.ldcv', 0)
   });
+  ldrs = window.ldrsInput = new ldSlider({
+    root: ld$.find(document, '.ldrs', 6),
+    min: 1,
+    max: 11,
+    step: 2
+  });
+  ldrs.on('change', function(it){
+    return console.log('changed:', it);
+  });
+  ldrs.set(5);
   return window.popup = function(){
     return ldcv.toggle(true);
   };

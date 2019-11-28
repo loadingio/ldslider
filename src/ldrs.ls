@@ -8,6 +8,12 @@ ldSlider = (opt={}) ->
     @input.parentNode.insertBefore @root, @input
     @input.classList
     for i from 0 til @input.classList.length => @root.classList.add @input.classList[i]
+    @input.setAttribute \class, ''
+    if @input.getAttribute(\data-class) => @input.classList.add.apply @input.classList, that.split(' ')
+    handle = ~> @repos @input.value, true, false, true
+    @input.addEventListener \change, handle
+    @input.addEventListener \input, handle
+
   @root._ldrs = @
   @root.classList.add \ldrs
   @root.innerHTML = """
@@ -59,6 +65,17 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
   on: (n, cb) -> @evt-handler.[][n].push cb
   fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
   update: -> @set @value
+  # use internally for updating input box
+  update-input: ({now} = {now: false}) ->
+    clearTimeout @debounce
+    @debounce = setTimeout (~> if @input.value != @value => @input.value = @value), (if now => 0 else 500)
+  edit: (v) ->
+    if !@input => return
+    if !(v?) => v = @input.getAttribute(\type) == \hidden
+    @input.setAttribute \type, if v => \text else \hidden
+    @root.style.display = if v => \none else ''
+    if !v => @update!
+
   prepare: ->
     if @opt.from? => @value = @opt.from
     # exponential slider. use exp: {value, percent} to control its shape.
@@ -80,7 +97,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
   get: -> @value
 
   /* v is e.clientX or value, depends on is-event */
-  repos: (v, force-notify=false, is-event=false)->
+  repos: (v, force-notify=false, is-event=false, from-input=false)->
     /* normalize value and position */
     old = @value
     rbox = @el.p.parentNode.getBoundingClientRect!
@@ -120,4 +137,9 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     @el.b.fg.style.width = "#x%"
 
     /* notification if necessary*/
+    # force-notify is true when repos is triggered by mouse dragging the slider.
     if v != old and force-notify => @fire \change, @value
+    # if input available, update its value.
+    # if from-input = true: repos is triggered from user input of input box,
+    # so we have to debounce if v is modified.
+    if @input => @update-input {now: !from-input}

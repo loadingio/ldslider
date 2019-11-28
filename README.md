@@ -10,16 +10,37 @@ Slider Library in Vanilla JS. Support exponential scale.
     ldrs.set(value);
 ```
 
-Available methods:
+Example:
+
+```
+    <div class="ldrs"></div>
+    <script> ldrs = new ldSlider({root: document.querySelector('ldrs')}); </script>
+```
+
+You can also use an input box to initialize ldSlider:
+
+```
+    <input class="ldrs" data-class="form-control">
+    <script> ldrs = new ldSlider({root: document.querySelector('ldrs')}); </script>
+```
+
+In this case, a new `div` will be created and inserted before the `input` element, inherits all classes of the `input` element. The `input` element's type will be set to `hidden`.
+
+You can use an optional `data-class` attribute in `input` to define the classes of the input element.
+
+
+## API
 
  * set(value, forceNotify): set slider's value. Notify listeners if forceNotify = true and value is changed.
  * get: get slider's value.
  * setConfig(config): update slider's config. 
  * on("change", cb): listen to value change.
+ * edit(v): toggle input box on (v = true) or off (v = false). auto swtich if v is undefined.
+   this only works if you init ldrs over input element.
  * update: update ui. useful when your slider is out of place ( sometimes due to toggle display and set value when widget is not visible.)
 
 
-configs: 
+## Configuration
 
  * root: when the range slider kicks in.
  * min: minimal value
