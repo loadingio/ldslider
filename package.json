@@ -2,8 +2,8 @@
   "author": "Kirby Wu",
   "name": "ldSlider",
   "license": "MIT",
-  "description": "tiny range slider library",
-  "version": "0.0.1",
+  "description": "Slider Library in Vanilla JS",
+  "version": "1.0.0",
   "homepage": "https://github.com/loadingio/ldSlider",
   "repository": {
     "type": "git",
