@@ -5,6 +5,23 @@ Slider Library in Vanilla JS. Support exponential scale.
 
 ## Usage
 
+
+1. download and include ldSlider [JS](https://github.com/loadingio/ldSlider/releases/latest/download/ldrs.min.js) / [CSS](https://github.com/loadingio/ldSlider/releases/latest/download/ldrs.min.css):
+
+```
+    <link rel="stylesheet" type="text/css" href="ldrs.css"/>
+    <script type="text/javascript" src="ldrs.js"></script>
+```
+
+you an use a CDN, such as, from jsDelivr:
+
+```
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/loadingio/ldslider@v1.0.0/dist/ldrs.min.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/loadingio/ldslider@v1.0.0/dist/ldrs.min.js"/>
+```
+
+2. create a new ldSlider instance for using ldSlider's API:
+
 ```
     ldrs = new ldSlider(configs);
     ldrs.set(value);
