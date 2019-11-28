@@ -14,14 +14,14 @@ Example:
 
 ```
     <div class="ldrs"></div>
-    <script> ldrs = new ldSlider({root: document.querySelector('ldrs')}); </script>
+    <script> ldrs = new ldSlider({root: document.querySelector('.ldrs')}); </script>
 ```
 
 You can also use an input box to initialize ldSlider:
 
 ```
     <input class="ldrs" data-class="form-control">
-    <script> ldrs = new ldSlider({root: document.querySelector('ldrs')}); </script>
+    <script> ldrs = new ldSlider({root: document.querySelector('.ldrs')}); </script>
 ```
 
 In this case, a new `div` will be created and inserted before the `input` element, inherits all classes of the `input` element. The `input` element's type will be set to `hidden`.
