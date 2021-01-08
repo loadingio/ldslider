@@ -1,9 +1,12 @@
 {
-  "author": "Kirby Wu",
+  "author": "zbryikt",
   "name": "ldslider",
   "license": "MIT",
   "description": "Slider Library in Vanilla JS",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "files": [
+    "dist/**/*"
+  ],
   "homepage": "https://github.com/loadingio/ldSlider",
   "repository": {
     "type": "git",
