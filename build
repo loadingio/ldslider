@@ -3,14 +3,17 @@ rm -rf dist
 mkdir -p dist
 echo "build src/ldrs.ls -> dist/ldrs.js ..."
 npx lsc -cbp --no-header src/ldrs.ls > dist/ldrs.js
-echo "build src/ldrs.styl -> dist/ldrs.css ..."
-npx stylus -p src/ldrs.styl > dist/ldrs.css
+echo "build src/font.styl -> dist/ldrs.css ..."
+npx stylus -p src/font.styl > dist/ldrs.css
+echo "build src/ldrs.styl ->> dist/ldrs.css ..."
+npx stylus -p src/ldrs.styl >> dist/ldrs.css
 echo "minifying ldrs.js ..."
 npx uglifyjs dist/ldrs.js > dist/ldrs.min.js
 echo "minifying ldrs.css ..."
 npx uglifycss dist/ldrs.css > dist/ldrs.min.css
 echo "copy dist files to web ..."
-mkdir -p web/static/assets/ldrs/
-cp -R dist/* web/static/assets/ldrs/
+rm -rf web/static/assets/lib/ldrs/
+mkdir -p web/static/assets/lib/ldrs/dev
+cp -R dist/* web/static/assets/lib/ldrs/dev/
 echo "done."
 

@@ -17,13 +17,28 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "npx server -r web -o true"
+    "start": "npx server -r web -o true",
+    "postinstall": "npx fedep"
   },
   "devDependencies": {
+    "@loadingio/ldquery": "^2.0.0",
+    "bootstrap": "^4.5.2",
+    "bootstrap.ldui": "github:loadingio/bootstrap.ldui",
+    "fedep": "^0.0.12",
+    "ldcover": "^1.3.1",
     "livescript": "^1.6.0",
     "stylus": "^0.54.5",
     "template": "github:zbryikt/template#v2.3.13",
     "uglify-js": "=3.2.0",
     "uglifycss": "0.0.29"
+  },
+  "frontendDependencies": {
+    "root": "web/static/assets/lib",
+    "modules": [
+      "bootstrap",
+      "bootstrap.ldui",
+      "@loadingio/ldquery",
+      "ldcover"
+    ]
   }
 }
