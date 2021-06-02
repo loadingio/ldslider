@@ -2,7 +2,7 @@
 
 # v2.0.0
 
- - use `crashing number gothic` font and tweak vertical offset, especially for Firefox.
+ - use `crash numbering gothic` font and tweak vertical offset, especially for Firefox.
  - remove redundant and unnecessary width / right style in bar width
  - align class name ( .lock-line to .line.lock, .ptr to .line.p )
  - tweak stylus source code for better readability
