@@ -78,7 +78,8 @@
   ldrs.set(5);
   ldrs = new ldSlider({
     root: ld$.find(root2, '.ldrs', 0),
-    min: 0
+    min: 0,
+    limitMax: 60
   });
   ldrs.on('change', function(it){
     return console.log('changed:', it);
@@ -86,7 +87,8 @@
   ldrs.set(30);
   ldrs = new ldSlider({
     root: ld$.find(root2, '.ldrs', 1),
-    min: 0
+    min: 0,
+    limitMax: 60
   });
   ldrs.on('change', function(it){
     return console.log('changed:', it);
@@ -98,7 +100,8 @@
     exp: {
       output: 0.9,
       input: 0.5
-    }
+    },
+    limitMax: 60
   });
   ldrs.on('change', function(it){
     return console.log('changed:', it);
@@ -121,7 +124,8 @@
     root: ld$.find(root2, '.ldrs', 4),
     min: 1,
     max: 11,
-    step: 2
+    step: 2,
+    limitMax: 7
   });
   ldrs.on('change', function(it){
     return console.log('changed:', it);
