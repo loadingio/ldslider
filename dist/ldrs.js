@@ -175,7 +175,6 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     this.el.h.r.innerText = this.label.max != null
       ? this.label.max
       : this.opt.max;
-    this.el.h.lock.innerHTML = "<i class=\"i-lock\"></i>";
     this.el.h.p.innerText = this.label.ptr(this.opt.from);
     this.el.h.q.innerText = this.label.ptr(this.opt.to);
     this.root.classList[this.opt.limitMax != null ? 'add' : 'remove']('limit');

@@ -130,8 +130,9 @@
   ldrs = new ldSlider({
     root: ld$.find(root2, '.ldrs', 5),
     min: 1,
-    max: 10,
-    step: 0.01
+    max: 100,
+    step: 0.01,
+    limitMax: 60
   });
   ldrs.on('change', function(it){
     return console.log('changed:', it);

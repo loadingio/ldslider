@@ -28,6 +28,12 @@
 .ldrs.range .cap {
   background: #eee;
 }
+.ldrs .hint.lock:before {
+  border-color: #aaa;
+}
+.ldrs .hint.lock:after {
+  background: #aaa;
+}
 .ldrs.tone .bar .cap,
 .ldrs.tone .bar .fg,
 .ldrs.tone .line.p:after,
@@ -48,6 +54,12 @@
 }
 .ldrs.tone.range .cap {
   background: var(--bg);
+}
+.ldrs.tone .hint.lock:before {
+  border-color: var(--text-muted);
+}
+.ldrs.tone .hint.lock:after {
+  background: var(--text-muted);
 }
 input.ldrs {
   display: none;
@@ -169,6 +181,32 @@ input.ldrs {
 .ldrs.limit .hint.lock,
 .ldrs.limit .line.lock {
   display: block;
+}
+.ldrs .hint.lock {
+  width: 16px;
+  height: 14px;
+}
+.ldrs .hint.lock:before,
+.ldrs .hint.lock:after {
+  content: "";
+  display: block;
+  position: absolute;
+}
+.ldrs .hint.lock:before {
+  border-width: 1px;
+  border-style: solid;
+  top: 2px;
+  left: 5px;
+  width: 6px;
+  height: 10px;
+  border-radius: 4px 4px 0 0;
+}
+.ldrs .hint.lock:after {
+  top: 6px;
+  left: 4px;
+  width: 8px;
+  height: 6px;
+  border-radius: 2px;
 }
 /* layout related */
 .ldrs {

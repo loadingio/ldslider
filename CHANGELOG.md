@@ -1,5 +1,10 @@
 # Change Log
 
+# v2.0.1
+
+ - remove the dependency of ldiconfont by mimicing lock icon with pure CSS.
+
+
 # v2.0.0
 
  - use `crash numbering gothic` font and tweak vertical offset, especially for Firefox.

@@ -110,7 +110,6 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     } <<< (@opt.label or {})
     @el.h.l.innerText = if @label.min? => @label.min else @opt.min
     @el.h.r.innerText = if @label.max? => @label.max else @opt.max
-    @el.h.lock.innerHTML = """<i class="i-lock"></i>"""
     @el.h.p.innerText = @label.ptr(@opt.from)
     @el.h.q.innerText = @label.ptr(@opt.to)
     @root.classList[if @opt.limit-max? => \add else \remove] \limit
