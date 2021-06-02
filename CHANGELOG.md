@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.0.5
+
+ - remove postinstall to prevent from breaking dependency installation
+
+
 ## v2.0.4
 
  - add `ldslider` and deprecate `ldSlider`.

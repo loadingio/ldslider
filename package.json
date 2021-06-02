@@ -3,7 +3,7 @@
   "name": "ldslider",
   "license": "MIT",
   "description": "Slider Library in Vanilla JS",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "files": [
     "dist/**/*"
   ],
@@ -17,8 +17,7 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "npx server -r web -o true",
-    "postinstall": "npx fedep"
+    "start": "npx server -r web -o true"
   },
   "devDependencies": {
     "@loadingio/ldquery": "^2.0.0",
