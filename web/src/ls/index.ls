@@ -26,7 +26,7 @@
   ldrs.on \change, -> console.log 'changed:', it
   ldrs.set 8
 
-  ldcv = new ldCover root: ld$.find(root1, '.ldcv', 0)
+  ldcv = new ldCover root: ld$.find('.ldcv', 0)
 
   ldrs = window.ldrsInput = new ldSlider root: ld$.find(root1,'.ldrs',6), min: 1, max: 11, step: 2
   ldrs.on \change, -> console.log 'changed:', it
@@ -57,7 +57,6 @@
   ldrs.on \change, -> console.log 'changed:', it
   ldrs.set {from: 2, to: 8}
 
-  ldcv = new ldCover root: ld$.find(root2, '.ldcv', 0)
 
   ldrs = window.ldrsInput = new ldSlider root: ld$.find(root2,'.ldrs',6), min: 1, max: 11, step: 2, range: true
   ldrs.on \change, -> console.log 'changed:', it

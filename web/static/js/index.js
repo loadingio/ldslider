@@ -64,7 +64,7 @@
   });
   ldrs.set(8);
   ldcv = new ldCover({
-    root: ld$.find(root1, '.ldcv', 0)
+    root: ld$.find('.ldcv', 0)
   });
   ldrs = window.ldrsInput = new ldSlider({
     root: ld$.find(root1, '.ldrs', 6),
@@ -144,9 +144,6 @@
   ldrs.set({
     from: 2,
     to: 8
-  });
-  ldcv = new ldCover({
-    root: ld$.find(root2, '.ldcv', 0)
   });
   ldrs = window.ldrsInput = new ldSlider({
     root: ld$.find(root2, '.ldrs', 6),
