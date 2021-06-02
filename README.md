@@ -133,6 +133,17 @@ Here is an example with blue slider bar and yellow active text:
       .hint.r
 
 
+## Credit
+
+To provide a more consistent visual effect, ldslider embeds a number font directly in CSS: 
+
+ - [Crash Numbering Gothic](https://www.psyops.com/crash-numbering/), released under free license
+
+We expect to replace this with a more compact font file crafted exclusively for ldslider.
+
+The font-family value in ldrs.css is set to `ldrs-default-font` only for convenience.
+
+
 ## License
 
 MIT
