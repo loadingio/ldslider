@@ -124,7 +124,11 @@ ldslider.prototype = import$(Object.create(Object.prototype), {
     return results$;
   },
   update: function(){
-    return this.set(this.val);
+    if (this.range) {
+      return this.set(this.val);
+    } else {
+      return this.set(this.val.from);
+    }
   },
   updateInput: function(arg$){
     var now, this$ = this;

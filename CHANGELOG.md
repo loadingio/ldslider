@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.0.6
+
+ - fix bug: ldrs.update should check range flag.
+
+
 ## v2.0.5
 
  - remove postinstall to prevent from breaking dependency installation
