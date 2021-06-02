@@ -13,11 +13,16 @@ ldSlider = (opt={}) ->
     if @input.getAttribute(\data-class) => @input.classList.add.apply @input.classList, that.split(' ')
     handle = ~>
       if @range =>
-        v = (@input.value or '').split(/\s+to\s+/)
-        v = {from: parseFloat(v.0), to: parseFloat(v.1)}
+        v = (@input.value or '').split(/\s*~\s*/)
+        v = {from: parseFloat((v.0 or '').trim!), to: parseFloat((v.1 or '').trim!)}
+        if isNaN(v.from) => v.from = 0
+        if isNaN(v.to) => v.from = 0
         @repos v.from, true, false, true, false
         @repos v.to, true, false, true, true
-      else @repos @input.value, true, false, true
+      else
+        v = parseFloat((@input.value or '').trim!)
+        if isNaN(v) => v = 0
+        @repos v, true, false, true
     @input.addEventListener \change, handle
     @input.addEventListener \input, handle
 
@@ -86,7 +91,7 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     clearTimeout @debounce
     @debounce = setTimeout (~>
       if @range =>
-        v = "#{@val.from} to #{@val.to}"
+        v = "#{@val.from} ~ #{@val.to}"
         if @input.value != v => @input.value = v
       else
         if @input.value != @val.from => @input.value = @val.from

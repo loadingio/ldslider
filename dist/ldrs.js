@@ -34,15 +34,25 @@ ldSlider = function(opt){
     handle = function(){
       var v;
       if (this$.range) {
-        v = (this$.input.value || '').split(/\s+to\s+/);
+        v = (this$.input.value || '').split(/\s*~\s*/);
         v = {
-          from: parseFloat(v[0]),
-          to: parseFloat(v[1])
+          from: parseFloat((v[0] || '').trim()),
+          to: parseFloat((v[1] || '').trim())
         };
+        if (isNaN(v.from)) {
+          v.from = 0;
+        }
+        if (isNaN(v.to)) {
+          v.from = 0;
+        }
         this$.repos(v.from, true, false, true, false);
         return this$.repos(v.to, true, false, true, true);
       } else {
-        return this$.repos(this$.input.value, true, false, true);
+        v = parseFloat((this$.input.value || '').trim());
+        if (isNaN(v)) {
+          v = 0;
+        }
+        return this$.repos(v, true, false, true);
       }
     };
     this.input.addEventListener('change', handle);
@@ -127,7 +137,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     return this.debounce = setTimeout(function(){
       var v;
       if (this$.range) {
-        v = this$.val.from + " to " + this$.val.to;
+        v = this$.val.from + " ~ " + this$.val.to;
         if (this$.input.value !== v) {
           return this$.input.value = v;
         }

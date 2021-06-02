@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.0.3
+
+ - use `number ~ number` instead of `number to number` for input value.
+ - duse default value `0` for input value if parseFloat fails.
+
+
 ## v2.0.2
 
  - handle right-click issue
