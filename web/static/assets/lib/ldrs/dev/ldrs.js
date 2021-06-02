@@ -34,12 +34,12 @@ ldSlider = function(opt){
   }
   this.root._ldrs = this;
   this.root.classList.add('ldrs');
-  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"ptr\"></div>\n    <div class=\"lock-line\"></div>\n    <div class=\"hint p\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint lock\"></div>\n<div class=\"hint r\"></div>";
+  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"line p\"></div>\n    <div class=\"line lock\"></div>\n    <div class=\"hint p\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint lock\"></div>\n<div class=\"hint r\"></div>";
   this.el = el = {
     b: {
       fg: ld$.find(root, '.fg', 0)
     },
-    p: ld$.find(root, '.ptr', 0),
+    p: ld$.find(root, '.line.p', 0),
     h: {
       p: ld$.find(root, '.hint.p', 0),
       l: ld$.find(root, '.hint.l', 0),

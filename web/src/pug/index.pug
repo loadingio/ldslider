@@ -1,10 +1,11 @@
 doctype html
-include /../../static/assets/ldui/pug/ldui.pug
 html
+  include @/bootstrap.ldui/dist/index.pug
   head
-    +css("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
-    +css("assets/ldui/ldui.min.css")
-    +css("assets/ldrs/ldrs.min.css")
+    +css("assets/lib/bootstrap/main/css/bootstrap.min.css")
+    +css("assets/lib/bootstrap.ldui/main/bootstrap.ldui.min.css")
+    +css("assets/lib/ldcover/main/ldcv.min.css")
+    +css("assets/lib/ldrs/dev/ldrs.min.css")
     +css("css/index.css")
     style: :stylus
       @font-face
@@ -15,30 +16,59 @@ html
 
   body
     .w-1024.rwd.mx-auto.mt-4.pt-4
-      span Slider ( label up )
-      div: .ldrs.up
-      br
-      span Slider ( normal )
-      div: .ldrs
-      br
-      span Slider ( exponential scale )
-      div: .ldrs
-      br
-      span Slider ( exponential scale with limit )
-      div: .ldrs
-      br
-      span Slider ( step larger than 1 )
-      div: .ldrs
-      br
-      .btn.btn-outline-dark.mb-4(onclick="popup()") Popup
-      .ldcv: .base: .inner.card: .card-body
-        span Slider ( inside Modal )
-        div: .ldrs
-      br
-      span Slider ( with input )
-      div: input.ldrs(data-class="form-control")
-      .btn.btn-outline-dark.mt-1.btn-sm(onclick="ldrsInput.edit()") Toggle Edit
+      .row
+        #root1.col-md
+          span Label Up
+          div: .ldrs.up
+          br
+          span Normal
+          div: .ldrs
+          br
+          span Exponential Scale
+          div: .ldrs
+          br
+          span Exponential Scale with Limit
+          div: .ldrs
+          br
+          span Step Larger Than 1
+          div: .ldrs
+          br
+          .btn.btn-outline-dark.mb-4(onclick="popup()") Popup
+          .ldcv: .base: .inner.card: .card-body
+            span Inside Modal
+            div: .ldrs
+          br
+          span with Input
+          div: input.ldrs(data-class="form-control")
+          .btn.btn-outline-dark.mt-1.btn-sm(onclick="ldrsInput.edit()") Toggle Edit
 
-  +script("assets/ldui/ldui.min.js")
-  +script("assets/ldrs/ldrs.min.js")
+        #root2.col-md
+          span Small ( .ldrs.sm )
+          div: .ldrs.up.sm
+          br
+          span Large ( .ldrs.lg )
+          div: .ldrs.lg
+          br
+          span Auto Size ( .ldrs.auto )
+          div: .ldrs.auto
+          br
+
+          span Auto Small ( .ldrs.auto.sm )
+          div: .ldrs.auto.sm
+          br
+          span Auto Large ( .ldrs.auto.lg )
+          div: .ldrs.auto.lg
+          br
+          .btn.btn-outline-dark.mb-4(onclick="popup()") Popup
+          .ldcv: .base: .inner.card: .card-body
+            span Slider ( inside Modal )
+            div: .ldrs
+          br
+          span Slider ( with input )
+          div: input.ldrs(data-class="form-control")
+          .btn.btn-outline-dark.mt-1.btn-sm(onclick="ldrsInput.edit()") Toggle Edit
+
+  +script("assets/lib/@loadingio/ldquery/main/ldq.min.js")
+  +script("assets/lib/ldcover/main/ldcv.min.js")
+  +script("assets/lib/ldrs/dev/ldrs.min.js")
   script(src="js/index.js")

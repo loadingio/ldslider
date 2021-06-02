@@ -23,8 +23,8 @@ ldSlider = (opt={}) ->
       <div class="bar-inner">
         <div class="bk"></div>
         <div class="fg"></div>
-        <div class="ptr"></div>
-        <div class="lock-line"></div>
+        <div class="line p"></div>
+        <div class="line lock"></div>
         <div class="hint p"></div>
       </div>
     </div>
@@ -35,7 +35,7 @@ ldSlider = (opt={}) ->
 
   @el = el = do
     b: fg: ld$.find(root, '.fg', 0)
-    p: ld$.find(root, '.ptr', 0)
+    p: ld$.find(root, '.line.p', 0)
     h:
       p: ld$.find(root, '.hint.p', 0)
       l: ld$.find(root, '.hint.l', 0)
