@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.0.4
+
+ - add `ldslider` and deprecate `ldSlider`.
+
+
 ## v2.0.3
 
  - use `number ~ number` instead of `number to number` for input value.

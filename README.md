@@ -6,7 +6,7 @@ Slider Library in Vanilla JS. Support exponential scale.
 ## Usage
 
 
-1. download and include ldSlider [JS](https://github.com/loadingio/ldSlider/releases/latest/download/ldrs.min.js) / [CSS](https://github.com/loadingio/ldSlider/releases/latest/download/ldrs.min.css):
+1. download and include ldSlider [JS](https://github.com/loadingio/ldslider/releases/latest/download/ldrs.min.js) / [CSS](https://github.com/loadingio/ldslider/releases/latest/download/ldrs.min.css):
 
     <link rel="stylesheet" type="text/css" href="ldrs.css"/>
     <script type="text/javascript" src="ldrs.js"></script>
@@ -17,20 +17,20 @@ you an use a CDN, such as, from jsDelivr:
     <script type="text/javascript" src="//cdn.jsdelivr.net/gh/loadingio/ldslider@v1.0.0/dist/ldrs.min.js"/>
 
 
-2. create a new ldSlider instance for using ldSlider's API:
+2. create a new ldslider instance for using ldSlider's API:
 
-    ldrs = new ldSlider(configs);
+    ldrs = new ldslider(configs);
     ldrs.set(value);
 
 Example:
 
     <div class="ldrs"></div>
-    <script> ldrs = new ldSlider({root: document.querySelector('.ldrs')}); </script>
+    <script> ldrs = new ldslider({root: document.querySelector('.ldrs')}); </script>
 
-You can also use an input box to initialize ldSlider:
+You can also use an input box to initialize ldslider:
 
     <input class="ldrs" data-class="form-control">
-    <script> ldrs = new ldSlider({root: document.querySelector('.ldrs')}); </script>
+    <script> ldrs = new ldslider({root: document.querySelector('.ldrs')}); </script>
 
 In this case, a new `div` will be created and inserted before the `input` element, inherits all classes of the `input` element. The `input` element's type will be set to `hidden`.
 
@@ -94,7 +94,7 @@ Some quick and useful tweaks:
 
 ## Restyling with CSS Variable
 
-Default colorschema of ldSlider can be changed with CSS variables by adding `tone` class along with `ldrs` class:
+Default colorschema of ldslider can be changed with CSS variables by adding `tone` class along with `ldrs` class:
 
     <div class="ldrs tone"> ... </div>
 

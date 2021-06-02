@@ -1,4 +1,4 @@
-ldSlider = (opt={}) ->
+ldslider = (opt={}) ->
   @ <<< evt-handler: {}, opt: {min: 0, max: 100, from: 0, to: 0, step: 1} <<< opt
   @val = {to: 0, from: 0}
   @root = root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
@@ -82,7 +82,7 @@ ldSlider = (opt={}) ->
   @prepare!
   @
 
-ldSlider.prototype = Object.create(Object.prototype) <<< do
+ldslider.prototype = Object.create(Object.prototype) <<< do
   on: (n, cb) -> @evt-handler.[][n].push cb
   fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
   update: -> @set @val
@@ -193,3 +193,6 @@ ldSlider.prototype = Object.create(Object.prototype) <<< do
     # if from-input = true: repos is triggered from user input of input box,
     # so we have to debounce if v is modified.
     if @input => @update-input {now: !from-input}
+
+if module? => module.exports = ldslider
+else if window? => window.ldSlider = window.ldslider = ldslider

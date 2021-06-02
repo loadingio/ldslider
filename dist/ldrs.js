@@ -1,5 +1,5 @@
-var ldSlider;
-ldSlider = function(opt){
+var ldslider;
+ldslider = function(opt){
   var root, i$, to$, i, that, handle, el, mouse, this$ = this;
   opt == null && (opt = {});
   this.evtHandler = {};
@@ -105,7 +105,7 @@ ldSlider = function(opt){
   this.prepare();
   return this;
 };
-ldSlider.prototype = import$(Object.create(Object.prototype), {
+ldslider.prototype = import$(Object.create(Object.prototype), {
   on: function(n, cb){
     var ref$;
     return ((ref$ = this.evtHandler)[n] || (ref$[n] = [])).push(cb);
@@ -321,6 +321,11 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     }
   }
 });
+if (typeof module != 'undefined' && module !== null) {
+  module.exports = ldslider;
+} else if (typeof window != 'undefined' && window !== null) {
+  window.ldSlider = window.ldslider = ldslider;
+}
 function import$(obj, src){
   var own = {}.hasOwnProperty;
   for (var key in src) if (own.call(src, key)) obj[key] = src[key];
