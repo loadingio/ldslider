@@ -39,10 +39,13 @@ You can use an optional `data-class` attribute in `input` to define the classes 
 
 ## API
 
- - `set(value, forceNotify)`: set slider's value. Notify listeners if forceNotify = true and value is changed.
- - `get()`: get slider's value.
- - `setConfig(config)1: update slider's config. 
- - `on("change", cb)`: listen to value change.
+ - `set(value, forceNotify)`: set slider's value
+    - if `forceNotify` set to true, Notify listeners if value is changed.
+    - value is a number with number slider, and is `{from, to}` object with range slider.
+ - `get()`: get slider's value. return number with number slider, and `{from,to}` object with range slider.
+ - `setConfig(config)`: update slider's config. 
+ - `on("change", cb(value))`: listen to value change.
+   - `value` parameter in `cb` is a number with number slider and `{from,to}` object with range slider.
  - `edit(v)`: toggle input box on (v = true) or off (v = false). auto swtich if v is undefined.
    this only works if you init ldrs over input element.
  - `update()`: update ui. useful when your slider is out of place ( sometimes due to toggle display and set value when widget is not visible.)
@@ -50,33 +53,35 @@ You can use an optional `data-class` attribute in `input` to define the classes 
 
 ## Configuration
 
- * root: when the range slider kicks in.
- * min: minimal value
- * max: maximal value
- * step: each step when dragging
- * from: default value
- * exp: setup exponential scale.
-   - exp.percent: when slider to move this percent ...
-   - exp.value: ... the value should be map to this percent. 
+ * `root`: when the range slider kicks in.
+ * `range`: true if it's a range slider.
+ * `min`: minimal value
+ * `max`: maximal value
+ * `step`: each step when dragging
+ * `from`: default value
+ * `to`: default value for alternative pointer. ( only effective in range slider )
+ * `exp`: setup exponential scale.
+   - `exp.percent`: when slider to move this percent ...
+   - `exp.value`: ... the value should be map to this percent. 
    - for example:
      - {output: 0.9, input: 0.1} lets the slider to output 90% from min to max when slider is in the 10% position.
      - {output: 0.5, input: 0.5} equals to linear scale.
- * label: custom label.
-   - label.min - text for showing in minimal value label
-   - label.max - text for showing in maximal value label
-   - label.ptr(v) - function that convert v ( value ) to the returned customized string that representing v.
+ * `label`: custom label.
+   - `label.min` - text for showing in minimal value label
+   - `label.max` - text for showing in maximal value label
+   - `label.ptr(v)` - function that convert v ( value ) to the returned customized string that representing v.
 
 
 ## Decorating Classes
 
 Add following css classes to decorate your range slider:
 
- * up - force all tips toward up.
- * ldrs.sm - small size slider
- * ldrs.lg - large size slider
- * ldrs.auto - adjust slider size based on context font size
- * ldrs.auto.sm - adjust slider size based on context font size, while make it smaller
- * ldrs.auto.lg - adjust slider size based on context font size, while make it larger
+ * `up` - force all tips toward up.
+ * `ldrs.sm` - small size slider
+ * `ldrs.lg` - large size slider
+ * `ldrs.auto` - adjust slider size based on context font size
+ * `ldrs.auto.sm` - adjust slider size based on context font size, while make it smaller
+ * `ldrs.auto.lg` - adjust slider size based on context font size, while make it larger
 
 
 Some quick and useful tweaks:
@@ -86,6 +91,29 @@ Some quick and useful tweaks:
    - .ldrs .hint { top: 0; }
    - .ldrs .bar { top: 18px; }
    - .ldrs .ptr { top: 15px; }
+
+## Restyling with CSS Variable
+
+Default colorschema of ldSlider can be changed with CSS variables by adding `tone` class along with `ldrs` class:
+
+    <div class="ldrs tone"> ... </div>
+
+There are four variables:
+
+ - `--fg`: foreground color.
+ - `--bg`: background color.
+ - `--text`: active text color.
+ - `--text-muted`: muted text color.
+
+Here is an example with blue slider bar and yellow active text:
+
+
+    .ldrs.tone {
+      --fg: #09f
+      --bg: #eee
+      --text: #ff0
+      --text-muted: #aaa
+    }
 
 
 ## DOM Structure

@@ -53,15 +53,15 @@
   ldrs.on \change, -> console.log 'changed:', it
   ldrs.set 8
 
-  ldrs = new ldSlider root: ld$.find(root2,'.ldrs',5), min: 1, max: 11, step: 2
+  ldrs = new ldSlider root: ld$.find(root2,'.ldrs',5), min: 1, max: 10, step: 0.01
   ldrs.on \change, -> console.log 'changed:', it
-  ldrs.set 8
+  ldrs.set {from: 2, to: 8}
 
   ldcv = new ldCover root: ld$.find(root2, '.ldcv', 0)
 
-  ldrs = window.ldrsInput = new ldSlider root: ld$.find(root2,'.ldrs',6), min: 1, max: 11, step: 2
+  ldrs = window.ldrsInput = new ldSlider root: ld$.find(root2,'.ldrs',6), min: 1, max: 11, step: 2, range: true
   ldrs.on \change, -> console.log 'changed:', it
-  ldrs.set 5
+  ldrs.set {from: 2, to: 8}
 
 
   window.popup = -> ldcv.toggle true

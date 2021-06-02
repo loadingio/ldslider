@@ -13,6 +13,11 @@ html
         font-weight: normal
         font-style: normal
         src: url('assets/ldui/fonts/ldi.ttf') format('truetype')
+      .ldrs.tone.custom
+        --fg: #09f
+        --bg: #eee
+        --text: #ff0
+        --text-muted: #aaa
 
   body
     .w-1024.rwd.mx-auto.mt-4.pt-4
@@ -59,12 +64,10 @@ html
           span Auto Large ( .ldrs.auto.lg )
           div: .ldrs.auto.lg
           br
-          .btn.btn-outline-dark.mb-4(onclick="popup()") Popup
-          .ldcv: .base: .inner.card: .card-body
-            span Slider ( inside Modal )
-            div: .ldrs
+          span Range Slider ( .ldrs.range )
+          div: .ldrs.range.tone.custom
           br
-          span Slider ( with input )
+          span Range Slider with input, step by 2.
           div: input.ldrs(data-class="form-control")
           .btn.btn-outline-dark.mt-1.btn-sm(onclick="ldrsInput.edit()") Toggle Edit
 

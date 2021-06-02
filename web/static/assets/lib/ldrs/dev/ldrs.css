@@ -25,6 +25,30 @@
 .ldrs .hint.p {
   color: #fff;
 }
+.ldrs.range .cap {
+  background: #eee;
+}
+.ldrs.tone .bar .cap,
+.ldrs.tone .bar .fg,
+.ldrs.tone .line.p:after,
+.ldrs.tone .hint.p {
+  background: var(--fg);
+}
+.ldrs.tone .bar .cap:nth-child(2),
+.ldrs.tone .bar .bk,
+.ldrs.tone .hint,
+.ldrs.tone .line.lock:after {
+  background: var(--bg);
+}
+.ldrs.tone .hint {
+  color: var(--text-muted);
+}
+.ldrs.tone .hint.p {
+  color: var(--text);
+}
+.ldrs.tone.range .cap {
+  background: var(--bg);
+}
 input.ldrs {
   display: none;
 }
@@ -93,6 +117,9 @@ input.ldrs {
   cursor: pointer;
   z-index: 1;
 }
+.ldrs .hint.p.alt {
+  display: none;
+}
 /*
   there is an one pixel offset in firefox, which causes inconsistent between different browsers.
   not sure if it's webkit or firefox bug, or glyph configuration issue.
@@ -132,6 +159,12 @@ input.ldrs {
   left: auto;
   display: none;
   z-index: 0;
+}
+.ldrs .line.p.alt {
+  display: none;
+}
+.ldrs.range .p.alt {
+  display: block;
 }
 .ldrs.limit .hint.lock,
 .ldrs.limit .line.lock {

@@ -7,8 +7,13 @@ ldSlider = function(opt){
     min: 0,
     max: 100,
     from: 0,
+    to: 0,
     step: 1
   }, opt);
+  this.val = {
+    to: 0,
+    from: 0
+  };
   this.root = root = typeof opt.root === 'string'
     ? document.querySelector(opt.root)
     : opt.root;
@@ -27,21 +32,34 @@ ldSlider = function(opt){
       this.input.classList.add.apply(this.input.classList, that.split(' '));
     }
     handle = function(){
-      return this$.repos(this$.input.value, true, false, true);
+      var v;
+      if (this$.range) {
+        v = (this$.input.value || '').split(/\s+to\s+/);
+        v = {
+          from: parseFloat(v[0]),
+          to: parseFloat(v[1])
+        };
+        this$.repos(v.from, true, false, true, false);
+        return this$.repos(v.to, true, false, true, true);
+      } else {
+        return this$.repos(this$.input.value, true, false, true);
+      }
     };
     this.input.addEventListener('change', handle);
     this.input.addEventListener('input', handle);
   }
   this.root._ldrs = this;
   this.root.classList.add('ldrs');
-  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"line p\"></div>\n    <div class=\"line lock\"></div>\n    <div class=\"hint p\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint lock\"></div>\n<div class=\"hint r\"></div>";
+  this.root.innerHTML = "<div class=\"bar\">\n  <div class=\"cap\"></div>\n  <div class=\"cap\"></div>\n  <div class=\"bar-inner\">\n    <div class=\"bk\"></div>\n    <div class=\"fg\"></div>\n    <div class=\"line lock\"></div>\n    <div class=\"line p\"></div>\n    <div class=\"hint p\"></div>\n    <div class=\"line p alt\"></div>\n    <div class=\"hint p alt\"></div>\n  </div>\n</div>\n<div class=\"hint l\"></div>\n<div class=\"hint lock\"></div>\n<div class=\"hint r\"></div>";
   this.el = el = {
     b: {
       fg: ld$.find(root, '.fg', 0)
     },
     p: ld$.find(root, '.line.p', 0),
+    q: ld$.find(root, '.line.p.alt', 0),
     h: {
       p: ld$.find(root, '.hint.p', 0),
+      q: ld$.find(root, '.hint.p.alt', 0),
       l: ld$.find(root, '.hint.l', 0),
       r: ld$.find(root, '.hint.r', 0),
       lock: ld$.find(root, '.hint.lock', 0),
@@ -50,14 +68,19 @@ ldSlider = function(opt){
   };
   mouse = {
     move: function(e){
-      return this$.repos(e.clientX, true, true);
+      return this$.repos(e.clientX, true, true, false, mouse.alt);
     },
     up: function(){
+      var ref$, p, v;
       document.removeEventListener('mouseup', mouse.up);
       document.removeEventListener('mousemove', mouse.move);
-      return this$.el.h.p.innerText = this$.label.ptr(Math.round(10000 * this$.value) / 10000);
+      ref$ = !mouse.alt
+        ? [this$.el.h.p, this$.val.from]
+        : [this$.el.h.q, this$.val.to], p = ref$[0], v = ref$[1];
+      return p.innerText = this$.label.ptr(Math.round(10000 * v) / 10000);
     },
-    prepare: function(){
+    prepare: function(e){
+      mouse.alt = e.target && e.target.classList && e.target.classList.contains('alt') ? true : false;
       document.addEventListener('mousemove', mouse.move);
       return document.addEventListener('mouseup', mouse.up);
     }
@@ -87,7 +110,7 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
     return results$;
   },
   update: function(){
-    return this.set(this.value);
+    return this.set(this.val);
   },
   updateInput: function(arg$){
     var now, this$ = this;
@@ -98,8 +121,16 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
       }).now;
     clearTimeout(this.debounce);
     return this.debounce = setTimeout(function(){
-      if (this$.input.value !== this$.value) {
-        return this$.input.value = this$.value;
+      var v;
+      if (this$.range) {
+        v = this$.val.from + " to " + this$.val.to;
+        if (this$.input.value !== v) {
+          return this$.input.value = v;
+        }
+      } else {
+        if (this$.input.value !== this$.val.from) {
+          return this$.input.value = this$.val.from;
+        }
       }
     }, now ? 0 : 500);
   },
@@ -119,7 +150,10 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   prepare: function(){
     var this$ = this;
     if (this.opt.from != null) {
-      this.value = this.opt.from;
+      this.val.from = this.opt.from;
+    }
+    if (this.opt.to != null) {
+      this.val.to = this.opt.to;
     }
     if (this.opt.exp) {
       this.expFactor = Math.log(this.opt.exp.output || this.opt.max - this.opt.min) / Math.log(this.opt.exp.input);
@@ -143,7 +177,14 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
       : this.opt.max;
     this.el.h.lock.innerHTML = "<i class=\"i-lock\"></i>";
     this.el.h.p.innerText = this.label.ptr(this.opt.from);
+    this.el.h.q.innerText = this.label.ptr(this.opt.to);
     this.root.classList[this.opt.limitMax != null ? 'add' : 'remove']('limit');
+    this.range = this.opt.range != null
+      ? this.opt.range
+      : this.root.classList.contains('range') ? true : false;
+    if (this.range) {
+      this.root.classList.toggle('range', this.range);
+    }
     return this.update();
   },
   setConfig: function(opt){
@@ -153,20 +194,33 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
   },
   set: function(v, forceNotify){
     forceNotify == null && (forceNotify = false);
-    return this.repos(v, forceNotify);
+    if (this.range) {
+      this.repos(v.from, forceNotify, false, false, false);
+      return this.repos(v.to, forceNotify, false, false, true);
+    } else {
+      return this.repos(v, forceNotify);
+    }
   },
   get: function(){
-    return this.value;
+    if (this.range) {
+      return this.val;
+    } else {
+      return this.val.from;
+    }
   }
   /* v is e.clientX or value, depends on is-event */,
-  repos: function(v, forceNotify, isEvent, fromInput){
+  repos: function(v, forceNotify, isEvent, fromInput, alt){
     /* normalize value and position */
-    var old, rbox, w06, x, ref$, ref1$, ref2$, dx, ref3$, hbox;
+    var label, old, elH, elL, rbox, w06, x, ref$, ref1$, ref2$, dx, value, ref3$, xs, k, left, width, hbox;
     forceNotify == null && (forceNotify = false);
     isEvent == null && (isEvent = false);
     fromInput == null && (fromInput = false);
-    old = this.value;
-    rbox = this.el.p.parentNode.getBoundingClientRect();
+    alt == null && (alt = false);
+    label = alt ? 'to' : 'from';
+    old = this.val[label];
+    elH = this.el.h[alt ? 'q' : 'p'];
+    elL = this.el[alt ? 'q' : 'p'];
+    rbox = elL.parentNode.getBoundingClientRect();
     w06 = rbox.width * 0.6;
     if (isEvent) {
       x = (ref$ = (ref2$ = v - rbox.x) > 0 ? ref2$ : 0) < (ref1$ = rbox.width) ? ref$ : ref1$;
@@ -174,57 +228,78 @@ ldSlider.prototype = import$(Object.create(Object.prototype), {
       if (this.expFactor) {
         dx = Math.pow(dx, this.expFactor);
       }
-      this.value = this.opt.min + (this.opt.max - this.opt.min) * dx;
+      value = this.opt.min + (this.opt.max - this.opt.min) * dx;
       if (this.opt.limitMax != null) {
         if (x > w06) {
-          this.value = this.opt.limitMax + (this.opt.max - this.opt.limitMax) * (x - w06) / (rbox.width - w06);
+          value = this.opt.limitMax + (this.opt.max - this.opt.limitMax) * (x - w06) / (rbox.width - w06);
         } else {
           dx = x / w06;
           if (this.expFactor) {
             dx = Math.pow(dx, this.expFactor);
           }
-          this.value = this.opt.min + this.opt.limitMax * dx;
+          value = this.opt.min + this.opt.limitMax * dx;
         }
       }
     } else {
-      this.value = v;
+      value = v;
     }
-    this.value = v = (ref$ = (ref2$ = this.opt.min + Math.round((this.value - this.opt.min) / this.opt.step) * this.opt.step) > (ref3$ = this.opt.min) ? ref2$ : ref3$) < (ref1$ = this.opt.max) ? ref$ : ref1$;
-    if (this.opt.limitMax != null) {
-      if (v > this.opt.limitMax) {
-        x = (v - this.opt.limitMax) / (this.opt.max - this.opt.limitMax) * 40 + 60;
+    value = v = (ref$ = (ref2$ = this.opt.min + Math.round((value - this.opt.min) / this.opt.step) * this.opt.step) > (ref3$ = this.opt.min) ? ref2$ : ref3$) < (ref1$ = this.opt.max) ? ref$ : ref1$;
+    this.val[label] = value;
+    xs = {};
+    for (k in ref$ = this.val) {
+      v = ref$[k];
+      if (!this.range && k === 'to') {
+        continue;
+      }
+      if (this.opt.limitMax != null) {
+        if (v > this.opt.limitMax) {
+          x = (v - this.opt.limitMax) / (this.opt.max - this.opt.limitMax) * 40 + 60;
+        } else {
+          if (this.expFactor) {
+            x = 60 * Math.pow((v - this.opt.min) / (this.opt.limitMax - this.opt.min), 1 / this.expFactor);
+          } else {
+            x = 60 * (v - this.opt.min) / (this.opt.limitMax - this.opt.min);
+          }
+        }
       } else {
         if (this.expFactor) {
-          x = 60 * Math.pow((v - this.opt.min) / (this.opt.limitMax - this.opt.min), 1 / this.expFactor);
+          x = 100 * Math.pow((v - this.opt.min) / (this.opt.max - this.opt.min), 1 / this.expFactor);
         } else {
-          x = 60 * (v - this.opt.min) / (this.opt.limitMax - this.opt.min);
+          x = 100 * ((v - this.opt.min) / (this.opt.max - this.opt.min));
         }
       }
-    } else {
-      if (this.expFactor) {
-        x = 100 * Math.pow((this.value - this.opt.min) / (this.opt.max - this.opt.min), 1 / this.expFactor);
-      } else {
-        x = 100 * ((this.value - this.opt.min) / (this.opt.max - this.opt.min));
+      if (this.opt.limitMax != null && this.opt.limitHard) {
+        if (x > 60) {
+          x = 60;
+        }
+        if (v > this.opt.limitMax) {
+          v = this.opt.limitMax;
+        }
       }
+      this.val[k] = v;
+      xs[k] = x;
     }
-    if (this.opt.limitMax != null && this.opt.limitHard) {
-      if (x > 60) {
-        x = 60;
-      }
-      if (this.value > this.opt.limitMax) {
-        this.value = v = this.opt.limitMax;
-      }
-    }
+    x = xs[label];
+    v = this.val[label];
+    left = !this.range
+      ? 0
+      : Math.min(xs.from, xs.to) + 0.5;
+    width = !this.range
+      ? xs.from
+      : Math.max(xs.from, xs.to) - left + 0.5;
     /* update value and position into view */
-    hbox = this.el.h.p.getBoundingClientRect();
-    this.el.h.p.innerText = this.label.ptr(Math.round(10000 * v) / 10000);
-    this.el.h.p.style.left = 100 * (0.01 * x * rbox.width) / rbox.width + "%";
-    this.el.h.p.style.transform = "translate(-50%,0)";
-    this.el.p.style.left = x + "%";
-    this.el.b.fg.style.width = x + "%";
+    hbox = elH.getBoundingClientRect();
+    elH.innerText = this.label.ptr(Math.round(10000 * v) / 10000);
+    elH.style.left = 100 * (0.01 * x * rbox.width) / rbox.width + "%";
+    elH.style.transform = "translate(-50%,0)";
+    elL.style.left = x + "%";
+    this.el.b.fg.style.width = width + "%";
+    this.el.b.fg.style.left = left + "%";
     /* notification if necessary*/
     if (v !== old && forceNotify) {
-      this.fire('change', this.value);
+      this.fire('change', this.range
+        ? this.val
+        : this.val[label]);
     }
     if (this.input) {
       return this.updateInput({

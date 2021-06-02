@@ -1,13 +1,18 @@
 /* color related */
 .ldrs
-  .bar .cap, .bar .fg, .line.p:after, .hint.p
-    background: #f00
-  .bar .cap:nth-child(2), .bar .bk, .hint, .line.lock:after
-    background: #eee
-  .hint
-    color: #aaa
-  .hint.p
-    color: #fff
+  .bar .cap, .bar .fg, .line.p:after, .hint.p { background: #f00 }
+  .bar .cap:nth-child(2), .bar .bk, .hint, .line.lock:after { background: #eee }
+  .hint { color: #aaa }
+  .hint.p { color: #fff }
+  &.range .cap { background: #eee }
+
+.ldrs.tone
+  .bar .cap, .bar .fg, .line.p:after, .hint.p { background: var(--fg) }
+  .bar .cap:nth-child(2), .bar .bk, .hint, .line.lock:after { background: var(--bg) }
+  .hint { color: var(--text-muted) }
+  .hint.p { color: var(--text) }
+  &.range .cap { background: var(--bg) }
+
 
 input.ldrs
   display: none
@@ -63,6 +68,8 @@ input.ldrs
   .hint.p
     cursor: pointer
     z-index: 1
+  .hint.p.alt
+    display: none
 
 /*
   there is an one pixel offset in firefox, which causes inconsistent between different browsers.
@@ -103,7 +110,12 @@ input.ldrs
     left: auto
     display: none
     z-index: 0
+  .line.p.alt
+    display: none
 
+.ldrs.range
+  .p.alt
+    display: block
 .ldrs.limit
   .hint.lock, .line.lock
     display: block

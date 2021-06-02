@@ -130,13 +130,16 @@
   ldrs = new ldSlider({
     root: ld$.find(root2, '.ldrs', 5),
     min: 1,
-    max: 11,
-    step: 2
+    max: 10,
+    step: 0.01
   });
   ldrs.on('change', function(it){
     return console.log('changed:', it);
   });
-  ldrs.set(8);
+  ldrs.set({
+    from: 2,
+    to: 8
+  });
   ldcv = new ldCover({
     root: ld$.find(root2, '.ldcv', 0)
   });
@@ -144,12 +147,16 @@
     root: ld$.find(root2, '.ldrs', 6),
     min: 1,
     max: 11,
-    step: 2
+    step: 2,
+    range: true
   });
   ldrs.on('change', function(it){
     return console.log('changed:', it);
   });
-  ldrs.set(5);
+  ldrs.set({
+    from: 2,
+    to: 8
+  });
   return window.popup = function(){
     return ldcv.toggle(true);
   };
