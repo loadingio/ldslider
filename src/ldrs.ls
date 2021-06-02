@@ -55,8 +55,9 @@ ldSlider = (opt={}) ->
       lock-line: ld$.find(root, '.lock-line', 0)
 
   mouse = do
-    move: (e) ~> @repos e.clientX, true, true, false, mouse.alt
-
+    move: (e) ~>
+      if e.buttons .&. 1 => @repos e.clientX, true, true, false, mouse.alt
+      else mouse.up(e)
     up: ~>
       document.removeEventListener \mouseup, mouse.up
       document.removeEventListener \mousemove, mouse.move

@@ -68,7 +68,11 @@ ldSlider = function(opt){
   };
   mouse = {
     move: function(e){
-      return this$.repos(e.clientX, true, true, false, mouse.alt);
+      if (e.buttons & 1) {
+        return this$.repos(e.clientX, true, true, false, mouse.alt);
+      } else {
+        return mouse.up(e);
+      }
     },
     up: function(){
       var ref$, p, v;

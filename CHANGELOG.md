@@ -1,11 +1,16 @@
 # Change Log
 
-# v2.0.1
+## v2.0.2
+
+ - handle right-click issue
+
+
+## v2.0.1
 
  - remove the dependency of ldiconfont by mimicing lock icon with pure CSS.
 
 
-# v2.0.0
+## v2.0.0
 
  - use `crash numbering gothic` font and tweak vertical offset, especially for Firefox.
  - remove redundant and unnecessary width / right style in bar width
@@ -17,11 +22,11 @@
  - support range slider and custom variables for styling
 
 
-# v1.1.1
+## v1.1.1
 
  - upgrade modules
 
 
-# v1.1.0
+## v1.1.0
 
  - rename package.
