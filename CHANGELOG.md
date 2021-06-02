@@ -9,7 +9,7 @@
  - add crashing-number default font for consistent size.
    - use `ldrs-default-font` for placeholder and easier plug-play.
  - add font.styl which inline font directly.
-
+ - support range slider and custom variables for styling
 
 
 # v1.1.1
