@@ -7,7 +7,6 @@ ldslider = (opt={}) ->
     ld$.attr @input, \type, \hidden
     @root = root = document.createElement("div")
     @input.parentNode.insertBefore @root, @input
-    @input.classList
     for i from 0 til @input.classList.length => @root.classList.add @input.classList[i]
     @input.setAttribute \class, ''
     if @input.getAttribute(\data-class) => @input.classList.add.apply @input.classList, that.split(' ')

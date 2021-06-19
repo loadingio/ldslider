@@ -22,7 +22,6 @@ ldslider = function(opt){
     ld$.attr(this.input, 'type', 'hidden');
     this.root = root = document.createElement("div");
     this.input.parentNode.insertBefore(this.root, this.input);
-    this.input.classList;
     for (i$ = 0, to$ = this.input.classList.length; i$ < to$; ++i$) {
       i = i$;
       this.root.classList.add(this.input.classList[i]);
