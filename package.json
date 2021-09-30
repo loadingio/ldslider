@@ -7,10 +7,10 @@
   "files": [
     "dist/**/*"
   ],
-  "homepage": "https://github.com/loadingio/ldSlider",
+  "homepage": "https://github.com/loadingio/ldslider",
   "repository": {
     "type": "git",
-    "url": "https://github.com/loadingio/ldSlider"
+    "url": "https://github.com/loadingio/ldslider"
   },
   "engines": {
     "node": ">=10.14.1",
