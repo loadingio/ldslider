@@ -1,11 +1,11 @@
 doctype html
 html
-  include @/bootstrap.ldui/dist/index.pug
+  include @/@loadingio/bootstrap.ext/dist/index.pug
   head
-    +css("assets/lib/bootstrap/main/css/bootstrap.min.css")
-    +css("assets/lib/bootstrap.ldui/main/bootstrap.ldui.min.css")
-    +css("assets/lib/ldcover/main/ldcv.min.css")
-    +css("assets/lib/ldrs/dev/ldrs.min.css")
+    +css("assets/lib/bootstrap/main/dist/css/bootstrap.min.css")
+    +css("assets/lib/@loadingio/bootstrap.ext/main/dist/index.min.css")
+    +css("assets/lib/ldcover/main/index.css")
+    +css("assets/lib/ldslider/dev/index.css")
     +css("css/index.css")
     style: :stylus
       @font-face
@@ -71,7 +71,7 @@ html
           div: input.ldrs(data-class="form-control")
           .btn.btn-outline-dark.mt-1.btn-sm(onclick="ldrsInput.edit()") Toggle Edit
 
-  +script("assets/lib/@loadingio/ldquery/main/ldq.min.js")
-  +script("assets/lib/ldcover/main/ldcv.min.js")
-  +script("assets/lib/ldrs/dev/ldrs.min.js")
-  script(src="js/index.js")
+  +script("assets/lib/@loadingio/ldquery/main/index.js")
+  +script("assets/lib/ldcover/main/index.js")
+  +script("assets/lib/ldslider/dev/index.min.js")
+  script(src="js/index.js",type="module")
