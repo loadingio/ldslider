@@ -9,7 +9,7 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(30);
-ldrs = new ldSlider({
+ldrs = new ldslider({
   root: ld$.find(root1, '.ldrs', 1),
   min: 0
 });
@@ -17,7 +17,7 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(50);
-ldrs = new ldSlider({
+ldrs = new ldslider({
   root: ld$.find(root1, '.ldrs', 2),
   min: 0,
   exp: {
@@ -29,7 +29,7 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(50);
-ldrs = new ldSlider({
+ldrs = new ldslider({
   root: ld$.find(root1, '.ldrs', 3),
   min: 0,
   exp: {
@@ -42,7 +42,7 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(50);
-ldrs = new ldSlider({
+ldrs = new ldslider({
   root: ld$.find(root1, '.ldrs', 4),
   min: 1,
   max: 11,
@@ -52,7 +52,7 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(8);
-ldrs = new ldSlider({
+ldrs = new ldslider({
   root: ld$.find(root1, '.ldrs', 5),
   min: 1,
   max: 11,

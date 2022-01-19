@@ -5,23 +5,23 @@ ldrs = new ldslider root: ld$.find(root1, '.ldrs',0), min: 0
 ldrs.on \change, -> console.log 'changed:', it
 ldrs.set 30
 
-ldrs = new ldSlider root: ld$.find(root1,'.ldrs',1), min: 0
+ldrs = new ldslider root: ld$.find(root1,'.ldrs',1), min: 0
 ldrs.on \change, -> console.log 'changed:', it
 ldrs.set 50
 
-ldrs = new ldSlider root: ld$.find(root1,'.ldrs',2), min: 0, exp: {output: 0.9, input: 0.5}
+ldrs = new ldslider root: ld$.find(root1,'.ldrs',2), min: 0, exp: {output: 0.9, input: 0.5}
 ldrs.on \change, -> console.log 'changed:', it
 ldrs.set 50
 
-ldrs = new ldSlider root: ld$.find(root1,'.ldrs',3), min: 0, exp: {output: 0.9, input: 0.5}, limit-max: 60
+ldrs = new ldslider root: ld$.find(root1,'.ldrs',3), min: 0, exp: {output: 0.9, input: 0.5}, limit-max: 60
 ldrs.on \change, -> console.log 'changed:', it
 ldrs.set 50
 
-ldrs = new ldSlider root: ld$.find(root1,'.ldrs',4), min: 1, max: 11, step: 2
+ldrs = new ldslider root: ld$.find(root1,'.ldrs',4), min: 1, max: 11, step: 2
 ldrs.on \change, -> console.log 'changed:', it
 ldrs.set 8
 
-ldrs = new ldSlider root: ld$.find(root1,'.ldrs',5), min: 1, max: 11, step: 2
+ldrs = new ldslider root: ld$.find(root1,'.ldrs',5), min: 1, max: 11, step: 2
 ldrs.on \change, -> console.log 'changed:', it
 ldrs.set 8
 
