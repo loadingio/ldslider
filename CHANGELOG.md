@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.0.2
+
+ - release with compact directory structure
+
+
 ## v3.0.1
 
  - remove `ldSlider` and keep `ldslider` since we expect to remove it in v3
