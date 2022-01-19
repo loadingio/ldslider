@@ -1,5 +1,14 @@
 # Change Log
 
+## v3.0.0
+
+ - rename `ldrs.js`, `ldrs.css` to `index.js`, `index.css`. also do the same to source files.
+ - add `main`, `browser` and `style` fields in `package.json`.
+ - further minimize js file with mangling and compression options.
+ - make build faster by bypassing `npx` command
+ - upgrade modules
+
+
 ## v2.0.6
 
  - fix bug: ldrs.update should check range flag.
