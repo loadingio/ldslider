@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.0.1
+
+ - remove `ldSlider` and keep `ldslider` since we expect to remove it in v3
+
+
 ## v3.0.0
 
  - rename `ldrs.js`, `ldrs.css` to `index.js`, `index.css`. also do the same to source files.

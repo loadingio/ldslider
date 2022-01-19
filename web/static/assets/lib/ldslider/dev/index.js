@@ -328,7 +328,7 @@
   if (typeof module != 'undefined' && module !== null) {
     module.exports = ldslider;
   } else if (typeof window != 'undefined' && window !== null) {
-    window.ldSlider = window.ldslider = ldslider;
+    window.ldslider = ldslider;
   }
   function import$(obj, src){
     var own = {}.hasOwnProperty;

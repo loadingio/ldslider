@@ -194,4 +194,4 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
     if @input => @update-input {now: !from-input}
 
 if module? => module.exports = ldslider
-else if window? => window.ldSlider = window.ldslider = ldslider
+else if window? => window.ldslider = ldslider
