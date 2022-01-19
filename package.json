@@ -4,6 +4,9 @@
   "license": "MIT",
   "description": "Slider Library in Vanilla JS",
   "version": "2.0.6",
+  "style": "dist/index.min.css",
+  "browser": "dist/index.min.js",
+  "main": "dist/index.min.js",
   "files": [
     "dist/**/*"
   ],
