@@ -133,6 +133,11 @@ Here is an example with blue slider bar and yellow active text:
       .hint.r
 
 
+## Off Screen Rendering Issue
+
+Off screen rendering of the slider may be incorrect because we don't have the correct box size. We use ResizeObserver to redraw so you will consider using ResizeObserver Polyfill in older browser.
+
+
 ## Credit
 
 To provide a more consistent visual effect, ldslider embeds a number font directly in CSS: 

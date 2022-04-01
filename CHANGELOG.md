@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.0.3
+
+ - add resizeObserver to fix slider rendering bug when off screen.
+
+
 ## v3.0.2
 
  - release with compact directory structure
