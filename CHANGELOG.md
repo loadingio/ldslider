@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.0.4 (upcoming)
+
+ - upgrade modules to fix vulnerabilities
+
+
 ## v3.0.3
 
  - add resizeObserver to fix slider rendering bug when off screen.
