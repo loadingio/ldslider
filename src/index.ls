@@ -2,9 +2,6 @@ ldslider = (opt={}) ->
   @ <<< evt-handler: {}, opt: {min: 0, max: 100, from: 0, to: 0, step: 1} <<< opt
   @val = {to: 0, from: 0}
   @root = root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
-  if ResizeObserver? =>
-    ro = new ResizeObserver (es) ~> @set @get!
-    ro.observe @root
   if @root.tagName == \INPUT =>
     @input = @root
     ld$.attr @input, \type, \hidden
@@ -27,6 +24,10 @@ ldslider = (opt={}) ->
         @repos v, true, false, true
     @input.addEventListener \change, handle
     @input.addEventListener \input, handle
+
+  if ResizeObserver? =>
+    ro = new ResizeObserver (es) ~> @set @get!
+    ro.observe @root
 
   @root._ldrs = @
   @root.classList.add \ldrs

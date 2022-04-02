@@ -1,7 +1,7 @@
 (function(){
   var ldslider;
   ldslider = function(opt){
-    var root, ro, i$, to$, i, that, handle, el, mouse, this$ = this;
+    var root, i$, to$, i, that, handle, ro, el, mouse, this$ = this;
     opt == null && (opt = {});
     this.evtHandler = {};
     this.opt = import$({
@@ -18,12 +18,6 @@
     this.root = root = typeof opt.root === 'string'
       ? document.querySelector(opt.root)
       : opt.root;
-    if (typeof ResizeObserver != 'undefined' && ResizeObserver !== null) {
-      ro = new ResizeObserver(function(es){
-        return this$.set(this$.get());
-      });
-      ro.observe(this.root);
-    }
     if (this.root.tagName === 'INPUT') {
       this.input = this.root;
       ld$.attr(this.input, 'type', 'hidden');
@@ -63,6 +57,12 @@
       };
       this.input.addEventListener('change', handle);
       this.input.addEventListener('input', handle);
+    }
+    if (typeof ResizeObserver != 'undefined' && ResizeObserver !== null) {
+      ro = new ResizeObserver(function(es){
+        return this$.set(this$.get());
+      });
+      ro.observe(this.root);
     }
     this.root._ldrs = this;
     this.root.classList.add('ldrs');
