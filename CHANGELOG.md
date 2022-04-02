@@ -1,8 +1,9 @@
 # Change Log
 
-## v3.0.4 (upcoming)
+## v3.0.4
 
  - upgrade modules to fix vulnerabilities
+ - fix bug: resizeObserver should be installed after root is correctly set
 
 
 ## v3.0.3
