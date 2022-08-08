@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.0.6
+
+ - tweak ui layout by increasing height with 2px
+
+
 ## v3.0.5
 
  - properly format values in input element 
