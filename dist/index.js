@@ -136,6 +136,11 @@
         return this.set(this.val.from);
       }
     },
+    _f: function(v){
+      var s;
+      s = ((this.opt.step + "").split('.')[1] || '').length;
+      return +v.toFixed(s);
+    },
     updateInput: function(arg$){
       var now, this$ = this;
       now = (arg$ != null
@@ -147,13 +152,13 @@
       return this.debounce = setTimeout(function(){
         var v;
         if (this$.range) {
-          v = this$.val.from + " ~ " + this$.val.to;
+          v = this$._f(this$.val.from) + " ~ " + this$._f(this$.val.to);
           if (this$.input.value !== v) {
             return this$.input.value = v;
           }
         } else {
           if (this$.input.value !== this$.val.from) {
-            return this$.input.value = this$.val.from;
+            return this$.input.value = this$._f(this$.val.from);
           }
         }
       }, now ? 0 : 500);

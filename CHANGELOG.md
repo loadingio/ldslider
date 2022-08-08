@@ -1,5 +1,11 @@
 # Change Log
 
+## v3.0.5
+
+ - properly format values in input element 
+ - upgrade dev modules
+
+
 ## v3.0.4
 
  - upgrade modules to fix vulnerabilities

@@ -89,15 +89,18 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
   on: (n, cb) -> @evt-handler.[][n].push cb
   fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
   update: -> if @range => @set @val else @set @val.from
+  _f: (v) ->
+    s = ("#{@opt.step}".split('.').1 or '').length
+    +v.toFixed(s)
   # use internally for updating input box
   update-input: ({now} = {now: false}) ->
     clearTimeout @debounce
     @debounce = setTimeout (~>
       if @range =>
-        v = "#{@val.from} ~ #{@val.to}"
+        v = "#{@_f @val.from} ~ #{@_f @val.to}"
         if @input.value != v => @input.value = v
       else
-        if @input.value != @val.from => @input.value = @val.from
+        if @input.value != @val.from => @input.value = @_f(@val.from)
     ), (if now => 0 else 500)
   edit: (v) ->
     if !@input => return
