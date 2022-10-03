@@ -70,6 +70,7 @@ You can use an optional `data-class` attribute in `input` to define the classes 
    - `label.min` - text for showing in minimal value label
    - `label.max` - text for showing in maximal value label
    - `label.ptr(v)` - function that convert v ( value ) to the returned customized string that representing v.
+ * `unit`: unit for showing in label
 
 
 ## Decorating Classes

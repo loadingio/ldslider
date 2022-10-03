@@ -70,7 +70,7 @@ ldslider = (opt={}) ->
       document.removeEventListener \mouseup, mouse.up
       document.removeEventListener \mousemove, mouse.move
       [p,v] = if !mouse.alt => [@el.h.p, @val.from] else [@el.h.q, @val.to]
-      p.innerText = @label.ptr(Math.round(10000 * v) / 10000)
+      p.innerText = @label.ptr(Math.round(10000 * v) / 10000) + (@opt.unit or '')
     prepare: (e) ~>
       mouse.alt = if e.target and e.target.classList and e.target.classList.contains \alt => true
       else false
@@ -120,10 +120,10 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
         else if it == @opt.max and @label.max? => @label.max
         else it
     } <<< (@opt.label or {})
-    @el.h.l.innerText = if @label.min? => @label.min else @opt.min
-    @el.h.r.innerText = if @label.max? => @label.max else @opt.max
-    @el.h.p.innerText = @label.ptr(@opt.from)
-    @el.h.q.innerText = @label.ptr(@opt.to)
+    @el.h.l.innerText = (if @label.min? => @label.min else @opt.min) + (@opt.unit or '')
+    @el.h.r.innerText = (if @label.max? => @label.max else @opt.max) + (@opt.unit or '')
+    @el.h.p.innerText = @label.ptr(@opt.from) + (@opt.unit or '')
+    @el.h.q.innerText = @label.ptr(@opt.to) + (@opt.unit or '')
     @root.classList[if @opt.limit-max? => \add else \remove] \limit
     @range = if (@opt.range?) => @opt.range else if @root.classList.contains(\range) => true else false
     if @range => @root.classList.toggle \range, @range
@@ -185,7 +185,7 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
 
     /* update value and position into view */
     hbox = el-h.getBoundingClientRect!
-    el-h.innerText = @label.ptr(Math.round(10000 * v) / 10000)
+    el-h.innerText = @label.ptr(Math.round(10000 * v) / 10000) + (@opt.unit or '')
     el-h.style.left = "#{100 * (0.01 * x * rbox.width) / rbox.width}%"
     el-h.style.transform = "translate(-50%,0)"
     el-l.style.left = "#x%"

@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.1.0
+
+ - support `unit` option
+
+
 ## v3.0.6
 
  - tweak ui layout by increasing height with 2px

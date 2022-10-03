@@ -97,7 +97,7 @@
         ref$ = !mouse.alt
           ? [this$.el.h.p, this$.val.from]
           : [this$.el.h.q, this$.val.to], p = ref$[0], v = ref$[1];
-        return p.innerText = this$.label.ptr(Math.round(10000 * v) / 10000);
+        return p.innerText = this$.label.ptr(Math.round(10000 * v) / 10000) + (this$.opt.unit || '');
       },
       prepare: function(e){
         mouse.alt = e.target && e.target.classList && e.target.classList.contains('alt') ? true : false;
@@ -198,14 +198,14 @@
           }
         }
       }, this.opt.label || {});
-      this.el.h.l.innerText = this.label.min != null
+      this.el.h.l.innerText = (this.label.min != null
         ? this.label.min
-        : this.opt.min;
-      this.el.h.r.innerText = this.label.max != null
+        : this.opt.min) + (this.opt.unit || '');
+      this.el.h.r.innerText = (this.label.max != null
         ? this.label.max
-        : this.opt.max;
-      this.el.h.p.innerText = this.label.ptr(this.opt.from);
-      this.el.h.q.innerText = this.label.ptr(this.opt.to);
+        : this.opt.max) + (this.opt.unit || '');
+      this.el.h.p.innerText = this.label.ptr(this.opt.from) + (this.opt.unit || '');
+      this.el.h.q.innerText = this.label.ptr(this.opt.to) + (this.opt.unit || '');
       this.root.classList[this.opt.limitMax != null ? 'add' : 'remove']('limit');
       this.range = this.opt.range != null
         ? this.opt.range
@@ -317,7 +317,7 @@
         : Math.max(xs.from, xs.to) - left + 0.5;
       /* update value and position into view */
       hbox = elH.getBoundingClientRect();
-      elH.innerText = this.label.ptr(Math.round(10000 * v) / 10000);
+      elH.innerText = this.label.ptr(Math.round(10000 * v) / 10000) + (this.opt.unit || '');
       elH.style.left = 100 * (0.01 * x * rbox.width) / rbox.width + "%";
       elH.style.transform = "translate(-50%,0)";
       elL.style.left = x + "%";
