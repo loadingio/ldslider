@@ -87,11 +87,25 @@ Add following css classes to decorate your range slider:
 
 Some quick and useful tweaks:
 
+ * adjust label height 
+
+     /* line-height for label height */
+     .ldrs .hint { line-height: 1em }
+     /* overall height is affected so we have to tweak this too */
+     .ldrs { height: calc(2.58em) + 2px) }
+
+ * adjust text alignment within hint label:
+
+     /* tweak padding for text alignment. overall height part is omitted for simplicity */
+     .ldrs .hint { padding-bottom: 1px }
+
  * gap between bar and tips:
-   - .ldrs { height: 34px; }
-   - .ldrs .hint { top: 0; }
-   - .ldrs .bar { top: 18px; }
-   - .ldrs .ptr { top: 15px; }
+
+     .ldrs { height: 34px; }
+     .ldrs .hint { top: 0; }
+     .ldrs .bar { top: 18px; }
+     .ldrs .p { top: 15px; }
+
 
 ## Restyling with CSS Variable
 
