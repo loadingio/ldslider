@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.1.1
+
+ - fix bug: `setConfig()` should also prepare default values for missing configs.
+
+
 ## v3.1.0
 
  - support `unit` option

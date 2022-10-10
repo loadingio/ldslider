@@ -217,7 +217,13 @@
     },
     setConfig: function(opt){
       opt == null && (opt = {});
-      this.opt = import$({}, opt);
+      this.opt = import$({
+        min: 0,
+        max: 100,
+        from: 0,
+        to: 0,
+        step: 1
+      }, opt);
       return this.prepare();
     },
     set: function(v, forceNotify){

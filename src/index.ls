@@ -128,7 +128,7 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
     @range = if (@opt.range?) => @opt.range else if @root.classList.contains(\range) => true else false
     if @range => @root.classList.toggle \range, @range
     @update!
-  set-config: (opt={}) -> @opt = {} <<< opt; @prepare!
+  set-config: (opt={}) -> @opt = {min: 0, max: 100, from: 0, to: 0, step: 1} <<< opt; @prepare!
   set: (v, force-notify=false) ->
     if @range =>
       @repos v.from, force-notify, false, false, false
