@@ -83,15 +83,25 @@
       }
     };
     mouse = {
+      touched: false,
       move: function(e){
-        if (e.buttons & 1) {
-          return this$.repos(e.clientX, true, true, false, mouse.alt);
+        var x, that;
+        x = (that = (e.touches || [])[0])
+          ? that.pageX
+          : e.clientX;
+        if (e.buttons & 1 || mouse.touched) {
+          return this$.repos(x, true, true, false, mouse.alt);
         } else {
           return mouse.up(e);
         }
       },
       up: function(){
         var ref$, p, v;
+        document.removeEventListener('touchend', function(e){
+          mouse.touched = false;
+          return mouse.up(e);
+        });
+        document.removeEventListener('touchmove', mouse.move);
         document.removeEventListener('mouseup', mouse.up);
         document.removeEventListener('mousemove', mouse.move);
         ref$ = !mouse.alt
@@ -102,12 +112,25 @@
       prepare: function(e){
         mouse.alt = e.target && e.target.classList && e.target.classList.contains('alt') ? true : false;
         document.addEventListener('mousemove', mouse.move);
-        return document.addEventListener('mouseup', mouse.up);
+        document.addEventListener('touchmove', mouse.move);
+        document.addEventListener('mouseup', mouse.up);
+        return document.addEventListener('touchend', function(e){
+          mouse.touched = false;
+          return mouse.up(e);
+        });
       }
     };
     el.p.addEventListener('mousedown', mouse.prepare);
+    el.p.addEventListener('touchstart', function(e){
+      mouse.touched = true;
+      return mouse.prepare(e);
+    });
     root.addEventListener('click', mouse.move);
     root.addEventListener('mousedown', mouse.prepare);
+    root.addEventListener('touchstart', function(e){
+      mouse.touched = true;
+      return mouse.prepare(e);
+    });
     this.prepare();
     return this;
   };

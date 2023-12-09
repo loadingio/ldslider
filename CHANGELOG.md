@@ -1,5 +1,11 @@
 # Change Log
 
+## v3.1.2
+
+ - fix bug: mobile device isn't properly supported
+ - upgrade dependencies
+
+
 ## v3.1.1
 
  - fix bug: `setConfig()` should also prepare default values for missing configs.

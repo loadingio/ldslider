@@ -63,10 +63,14 @@ ldslider = (opt={}) ->
       lock-line: ld$.find(root, '.lock-line', 0)
 
   mouse = do
+    touched: false
     move: (e) ~>
-      if e.buttons .&. 1 => @repos e.clientX, true, true, false, mouse.alt
+      x = if (e.touches or []).0 => that.pageX else e.clientX
+      if (e.buttons .&. 1) or mouse.touched => @repos x, true, true, false, mouse.alt
       else mouse.up(e)
     up: ~>
+      document.removeEventListener \touchend, (e) -> mouse.touched = false; mouse.up(e)
+      document.removeEventListener \touchmove, mouse.move
       document.removeEventListener \mouseup, mouse.up
       document.removeEventListener \mousemove, mouse.move
       [p,v] = if !mouse.alt => [@el.h.p, @val.from] else [@el.h.q, @val.to]
@@ -76,12 +80,15 @@ ldslider = (opt={}) ->
       else false
 
       document.addEventListener \mousemove, mouse.move
+      document.addEventListener \touchmove, mouse.move
       document.addEventListener \mouseup, mouse.up
+      document.addEventListener \touchend, (e) -> mouse.touched = false; mouse.up(e)
 
   el.p.addEventListener \mousedown, mouse.prepare
+  el.p.addEventListener \touchstart, (e) -> mouse.touched = true; mouse.prepare(e)
   root.addEventListener \click, mouse.move
   root.addEventListener \mousedown, mouse.prepare
-
+  root.addEventListener \touchstart, (e) -> mouse.touched = true; mouse.prepare(e)
   @prepare!
   @
 

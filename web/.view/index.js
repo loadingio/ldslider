@@ -181,7 +181,7 @@ var loremtext = {
 
 
 
-pug_html = pug_html + "\u003Chead\u003E";
+pug_html = pug_html + "\u003Chead\u003E\u003Cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003E";
 pug_mixins["css"]("assets/lib/bootstrap/main/dist/css/bootstrap.min.css");
 pug_mixins["css"]("assets/lib/@loadingio/bootstrap.ext/main/dist/index.min.css");
 pug_mixins["css"]("assets/lib/ldcover/main/index.css");
