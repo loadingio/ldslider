@@ -1,5 +1,10 @@
 # Change Log
 
+## v3.1.3 (upcoming)
+
+ - upgrade dependencies
+
+
 ## v3.1.2
 
  - fix bug: mobile device isn't properly supported
