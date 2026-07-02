@@ -1,5 +1,5 @@
 ldslider = (opt={}) ->
-  @ <<< evt-handler: {}, opt: {min: 0, max: 100, from: 0, to: 0, step: 1} <<< opt
+  @ <<< evt-handler: {}, opt: {min: 0, max: 100, from: 0, to: 0, step: 1, safe-input: true} <<< opt
   @val = {to: 0, from: 0}
   @root = root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if @root.tagName == \INPUT =>
@@ -11,6 +11,21 @@ ldslider = (opt={}) ->
     @input.setAttribute \class, ''
     if @input.getAttribute(\data-class) => @input.classList.add.apply @input.classList, that.split(' ')
     handle = ~>
+      if @opt.safe-input =>
+        if @range =>
+          parts = (@input.value or '').split(/\s*~\s*/)
+          from = parseFloat((parts.0 or '').trim!)
+          to = parseFloat((parts.1 or '').trim!)
+          valid = !isNaN(from) and !isNaN(to)
+          if valid =>
+            @repos from, true, false, true, false
+            @repos to, true, false, true, true
+        else
+          v = parseFloat((@input.value or '').trim!)
+          valid = !isNaN(v)
+          if valid => @repos v, true, false, true
+        @input.classList.toggle \ldrs-invalid, !valid
+        return
       if @range =>
         v = (@input.value or '').split(/\s*~\s*/)
         v = {from: parseFloat((v.0 or '').trim!), to: parseFloat((v.1 or '').trim!)}
@@ -24,6 +39,13 @@ ldslider = (opt={}) ->
         @repos v, true, false, true
     @input.addEventListener \change, handle
     @input.addEventListener \input, handle
+    @input.addEventListener \focus, ~>
+      if @opt.safe-input => @_editing = true
+    @input.addEventListener \blur, ~>
+      if @opt.safe-input =>
+        @_editing = false
+        @input.classList.remove \ldrs-invalid
+        @update-input {now: true}
 
   if ResizeObserver? =>
     ro = new ResizeObserver (es) ~> @set @get!
@@ -102,6 +124,7 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
   # use internally for updating input box
   update-input: ({now} = {now: false}) ->
     clearTimeout @debounce
+    if @opt.safe-input and @_editing => return
     @debounce = setTimeout (~>
       if @range =>
         v = "#{@_f @val.from} ~ #{@_f @val.to}"
@@ -114,7 +137,10 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
     if !(v?) => v = @input.getAttribute(\type) == \hidden
     @input.setAttribute \type, if v => \text else \hidden
     @root.style.display = if v => \none else ''
-    if !v => @update!
+    if !v =>
+      @_editing = false
+      if @input => @input.classList.remove \ldrs-invalid
+      @update!
 
   prepare: ->
     if @opt.from? => @val.from = @opt.from
@@ -135,7 +161,7 @@ ldslider.prototype = Object.create(Object.prototype) <<< do
     @range = if (@opt.range?) => @opt.range else if @root.classList.contains(\range) => true else false
     if @range => @root.classList.toggle \range, @range
     @update!
-  set-config: (opt={}) -> @opt = {min: 0, max: 100, from: 0, to: 0, step: 1} <<< opt; @prepare!
+  set-config: (opt={}) -> @opt = {min: 0, max: 100, from: 0, to: 0, step: 1, safe-input: true} <<< opt; @prepare!
   set: (v, force-notify=false) ->
     if @range =>
       @repos v.from, force-notify, false, false, false

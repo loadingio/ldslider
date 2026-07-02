@@ -1,8 +1,9 @@
 # Change Log
 
-## v3.1.3 (upcoming)
+## v3.2.0
 
  - upgrade dependencies
+ - add `safeInput` option to prevent input box auto update
 
 
 ## v3.1.2

@@ -9,7 +9,8 @@
       max: 100,
       from: 0,
       to: 0,
-      step: 1
+      step: 1,
+      safeInput: true
     }, opt);
     this.val = {
       to: 0,
@@ -32,7 +33,27 @@
         this.input.classList.add.apply(this.input.classList, that.split(' '));
       }
       handle = function(){
-        var v;
+        var parts, from, to, valid, v;
+        if (this$.opt.safeInput) {
+          if (this$.range) {
+            parts = (this$.input.value || '').split(/\s*~\s*/);
+            from = parseFloat((parts[0] || '').trim());
+            to = parseFloat((parts[1] || '').trim());
+            valid = !isNaN(from) && !isNaN(to);
+            if (valid) {
+              this$.repos(from, true, false, true, false);
+              this$.repos(to, true, false, true, true);
+            }
+          } else {
+            v = parseFloat((this$.input.value || '').trim());
+            valid = !isNaN(v);
+            if (valid) {
+              this$.repos(v, true, false, true);
+            }
+          }
+          this$.input.classList.toggle('ldrs-invalid', !valid);
+          return;
+        }
         if (this$.range) {
           v = (this$.input.value || '').split(/\s*~\s*/);
           v = {
@@ -57,6 +78,20 @@
       };
       this.input.addEventListener('change', handle);
       this.input.addEventListener('input', handle);
+      this.input.addEventListener('focus', function(){
+        if (this$.opt.safeInput) {
+          return this$._editing = true;
+        }
+      });
+      this.input.addEventListener('blur', function(){
+        if (this$.opt.safeInput) {
+          this$._editing = false;
+          this$.input.classList.remove('ldrs-invalid');
+          return this$.updateInput({
+            now: true
+          });
+        }
+      });
     }
     if (typeof ResizeObserver != 'undefined' && ResizeObserver !== null) {
       ro = new ResizeObserver(function(es){
@@ -172,6 +207,9 @@
           now: false
         }).now;
       clearTimeout(this.debounce);
+      if (this.opt.safeInput && this._editing) {
+        return;
+      }
       return this.debounce = setTimeout(function(){
         var v;
         if (this$.range) {
@@ -196,6 +234,10 @@
       this.input.setAttribute('type', v ? 'text' : 'hidden');
       this.root.style.display = v ? 'none' : '';
       if (!v) {
+        this._editing = false;
+        if (this.input) {
+          this.input.classList.remove('ldrs-invalid');
+        }
         return this.update();
       }
     },
@@ -245,7 +287,8 @@
         max: 100,
         from: 0,
         to: 0,
-        step: 1
+        step: 1,
+        safeInput: true
       }, opt);
       return this.prepare();
     },

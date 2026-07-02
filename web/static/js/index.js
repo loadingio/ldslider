@@ -1,4 +1,4 @@
-var root1, root2, ldrs, ldcv;
+var root1, root2, ldrs, ldrsSafeInput, ldcv;
 root1 = ld$.find('#root1', 0);
 root2 = ld$.find('#root2', 0);
 ldrs = new ldslider({
@@ -9,14 +9,14 @@ ldrs.on('change', function(it){
   return console.log('changed:', it);
 });
 ldrs.set(30);
-ldrs = new ldslider({
+ldrsSafeInput = window.ldrsSafeInput = new ldslider({
   root: ld$.find(root1, '.ldrs', 1),
   min: 0
 });
-ldrs.on('change', function(it){
+ldrsSafeInput.on('change', function(it){
   return console.log('changed:', it);
 });
-ldrs.set(50);
+ldrsSafeInput.set(50);
 ldrs = new ldslider({
   root: ld$.find(root1, '.ldrs', 2),
   min: 0,

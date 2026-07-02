@@ -5,9 +5,9 @@ ldrs = new ldslider root: ld$.find(root1, '.ldrs',0), min: 0
 ldrs.on \change, -> console.log 'changed:', it
 ldrs.set 30
 
-ldrs = new ldslider root: ld$.find(root1,'.ldrs',1), min: 0
-ldrs.on \change, -> console.log 'changed:', it
-ldrs.set 50
+ldrsSafeInput = window.ldrsSafeInput = new ldslider root: ld$.find(root1,'.ldrs',1), min: 0
+ldrsSafeInput.on \change, -> console.log 'changed:', it
+ldrsSafeInput.set 50
 
 ldrs = new ldslider root: ld$.find(root1,'.ldrs',2), min: 0, exp: {output: 0.9, input: 0.5}
 ldrs.on \change, -> console.log 'changed:', it

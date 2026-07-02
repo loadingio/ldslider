@@ -46,8 +46,9 @@ You can use an optional `data-class` attribute in `input` to define the classes 
  - `setConfig(config)`: update slider's config. 
  - `on("change", cb(value))`: listen to value change.
    - `value` parameter in `cb` is a number with number slider and `{from,to}` object with range slider.
- - `edit(v)`: toggle input box on (v = true) or off (v = false). auto swtich if v is undefined.
-   this only works if you init ldrs over input element.
+ - `edit(v)`: toggle input box on (v = true) or off (v = false). auto switch if v is undefined.
+   - this only works if you init ldrs over input element.
+   - when `safe-input` is enabled, calling `edit(false)` syncs the input box to the current slider value.
  - `update()`: update ui. useful when your slider is out of place ( sometimes due to toggle display and set value when widget is not visible.)
 
 
@@ -71,6 +72,16 @@ You can use an optional `data-class` attribute in `input` to define the classes 
    - `label.max` - text for showing in maximal value label
    - `label.ptr(v)` - function that convert v ( value ) to the returned customized string that representing v.
  * `unit`: unit for showing in label
+ * `safe-input`: (default: `true`) when using input box mode, preserve user's typed content while editing. valid values update the slider immediately; invalid values are highlighted with `ldrs-invalid` class instead of being reset. the input box syncs to the actual value on blur or when `edit(false)` is called. set to `false` to restore the original debounce behavior.
+
+
+## CSS Classes for Input Box
+
+When using input box mode with `safe-input` enabled:
+
+ * `ldrs-invalid` - added to the input element when the typed value is not a valid number. use this to style invalid input (e.g. red text):
+
+       input.ldrs-invalid { color: red; }
 
 
 ## Decorating Classes

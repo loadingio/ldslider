@@ -10,7 +10,7 @@ function pug_merge(e,r){if(1===arguments.length){for(var t=e[0],g=1;g<e.length;g
 function pug_style(r){if(!r)return"";if("object"==typeof r){var t="";for(var e in r)pug_has_own_property.call(r,e)&&(t=t+e+":"+r[e]+";");return t}return r+""}function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;
     var locals_for_with = (locals || {});
     
-    (function (Array, JSON, b64img, blockLoader, c, cssLoader, decache, defer, escape, libLoader, scriptLoader, url, version) {
+    (function (Array, JSON, b64img, blockLoader, c, cssLoader, decache, defer, escape, hashfile, libLoader, md5, scriptLoader, url, version) {
       pug_html = pug_html + "\u003C!DOCTYPE html\u003E";
 if(!libLoader) {
   libLoader = {
@@ -26,6 +26,7 @@ if(!libLoader) {
 
 pug_mixins["script"] = pug_interp = function(os,cfg){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
+var str = '', urls = [];
 if(!Array.isArray(os)) { os = [os]; }
 // iterate os
 ;(function(){
@@ -42,6 +43,11 @@ libLoader.js.url[url] = true;
 defer = (typeof(c.defer) == "undefined" ? true : !!c.defer);
 if (/^https?:\/\/./.exec(url)) {
 pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
+}
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
 }
 else {
 pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url + libLoader._v, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
@@ -63,6 +69,11 @@ defer = (typeof(c.defer) == "undefined" ? true : !!c.defer);
 if (/^https?:\/\/./.exec(url)) {
 pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
 }
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
+}
 else {
 pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url + libLoader._v, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
 }
@@ -71,9 +82,17 @@ pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_att
   }
 }).call(this);
 
+if (cfg && cfg.pack) {
+var name = md5(str);
+//var filename = "/js/pack/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".js";
+var fn = "/assets/bundle/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".js";
+hashfile({type: "js", name: name, files: urls, src: locals.filename});
+pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", fn + libLoader._v, true, true)) + "\u003E\u003C\u002Fscript\u003E";
+}
 };
 pug_mixins["css"] = pug_interp = function(os,cfg){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
+var str = '', urls = [];
 if(!Array.isArray(os)) { os = [os]; }
 // iterate os
 ;(function(){
@@ -87,7 +106,17 @@ else if(o.url) { url = o.url; }
 else { url = libLoader._r + "/" + o.name + "/" + (o.version || 'main') + "/" + (o.path || "index.min.css"); }
 if (!libLoader.css.url[url]) {
 libLoader.css.url[url] = true;
+if (/^https?:\/\/./.exec(url)) {
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url, true, true)) + "\u003E";
+}
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
+}
+else {
 pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url + libLoader._v, true, true)) + "\u003E";
+}
 }
       }
   } else {
@@ -101,12 +130,29 @@ else if(o.url) { url = o.url; }
 else { url = libLoader._r + "/" + o.name + "/" + (o.version || 'main') + "/" + (o.path || "index.min.css"); }
 if (!libLoader.css.url[url]) {
 libLoader.css.url[url] = true;
+if (/^https?:\/\/./.exec(url)) {
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url, true, true)) + "\u003E";
+}
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
+}
+else {
 pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url + libLoader._v, true, true)) + "\u003E";
+}
 }
     }
   }
 }).call(this);
 
+if (cfg && cfg.pack) {
+var name = md5(str);
+//var filename = "/css/pack/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".css";
+var fn = "/assets/bundle/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".css";
+hashfile({type: "css", name: name, files: urls, src: locals.filename});
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", fn + libLoader._v, true, true)) + "\u003E";
+}
 };
 pug_html = pug_html + "\u003Chtml\u003E";
 if (!(libLoader || scriptLoader)) {
@@ -187,7 +233,7 @@ pug_mixins["css"]("assets/lib/@loadingio/bootstrap.ext/main/dist/index.min.css")
 pug_mixins["css"]("assets/lib/ldcover/main/index.css");
 pug_mixins["css"]("assets/lib/ldslider/dev/index.css");
 pug_mixins["css"]("css/index.css");
-pug_html = pug_html + "\u003Cstyle\u003E@font-face{font-family:'ldi';font-weight:normal;font-style:normal;src:url(\"assets\u002Fldui\u002Ffonts\u002Fldi.ttf\") format('truetype')}.ldrs.tone.custom{--fg:#09f;--bg:#eee;--text:#ff0;--text-muted:#aaa}\u003C\u002Fstyle\u003E\u003C\u002Fhead\u003E\u003Cbody\u003E\u003Cdiv class=\"w-1024 rwd mx-auto mt-4 pt-4\"\u003E\u003Cdiv class=\"row\"\u003E\u003Cdiv class=\"col-md\" id=\"root1\"\u003E\u003Cspan\u003ELabel Up\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs up\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ENormal\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EExponential Scale\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EExponential Scale with Limit\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EStep Larger Than 1\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cdiv class=\"btn btn-outline-dark mb-4\" onclick=\"popup()\"\u003EPopup\u003C\u002Fdiv\u003E\u003Cdiv class=\"ldcv\"\u003E\u003Cdiv class=\"base\"\u003E\u003Cdiv class=\"inner card\"\u003E\u003Cdiv class=\"card-body\"\u003E\u003Cspan\u003EInside Modal\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003Ewith Input\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cinput class=\"ldrs\" data-class=\"form-control\"\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"btn btn-outline-dark mt-1 btn-sm\" onclick=\"ldrsInput.edit()\"\u003EToggle Edit\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"col-md\" id=\"root2\"\u003E\u003Cspan\u003ESmall ( .ldrs.sm )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs up sm\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ELarge ( .ldrs.lg )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs lg\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EAuto Size ( .ldrs.auto )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs auto\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EAuto Small ( .ldrs.auto.sm )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs auto sm\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EAuto Large ( .ldrs.auto.lg )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs auto lg\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ERange Slider ( .ldrs.range )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs range tone custom\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ERange Slider with input, step by 2.\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cinput class=\"ldrs\" data-class=\"form-control\"\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"btn btn-outline-dark mt-1 btn-sm\" onclick=\"ldrsInput.edit()\"\u003EToggle Edit\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fbody\u003E";
+pug_html = pug_html + "\u003Cstyle\u003E@font-face{font-family:'ldi';font-weight:normal;font-style:normal;src:url(\"assets\u002Fldui\u002Ffonts\u002Fldi.ttf\") format('truetype')}.ldrs.tone.custom{--fg:#09f;--bg:#eee;--text:#ff0;--text-muted:#aaa}\u003C\u002Fstyle\u003E\u003C\u002Fhead\u003E\u003Cbody\u003E\u003Cdiv class=\"w-1024 rwd mx-auto mt-4 pt-4\"\u003E\u003Cdiv class=\"row\"\u003E\u003Cdiv class=\"col-md\" id=\"root1\"\u003E\u003Cspan\u003ELabel Up\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs up\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ENormal\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cinput class=\"ldrs\" data-class=\"form-control\"\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"btn btn-outline-dark mt-1 mb-4 btn-sm\" onclick=\"ldrsSafeInput.edit()\"\u003EToggle Edit\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EExponential Scale\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EExponential Scale with Limit\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EStep Larger Than 1\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cdiv class=\"btn btn-outline-dark mb-4\" onclick=\"popup()\"\u003EPopup\u003C\u002Fdiv\u003E\u003Cdiv class=\"ldcv\"\u003E\u003Cdiv class=\"base\"\u003E\u003Cdiv class=\"inner card\"\u003E\u003Cdiv class=\"card-body\"\u003E\u003Cspan\u003EInside Modal\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003Ewith Input\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cinput class=\"ldrs\" data-class=\"form-control\"\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"btn btn-outline-dark mt-1 btn-sm\" onclick=\"ldrsInput.edit()\"\u003EToggle Edit\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"col-md\" id=\"root2\"\u003E\u003Cspan\u003ESmall ( .ldrs.sm )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs up sm\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ELarge ( .ldrs.lg )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs lg\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EAuto Size ( .ldrs.auto )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs auto\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EAuto Small ( .ldrs.auto.sm )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs auto sm\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003EAuto Large ( .ldrs.auto.lg )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs auto lg\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ERange Slider ( .ldrs.range )\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cdiv class=\"ldrs range tone custom\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003Cbr\u003E\u003Cspan\u003ERange Slider with input, step by 2.\u003C\u002Fspan\u003E\u003Cdiv\u003E\u003Cinput class=\"ldrs\" data-class=\"form-control\"\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"btn btn-outline-dark mt-1 btn-sm\" onclick=\"ldrsInput.edit()\"\u003EToggle Edit\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fbody\u003E";
 pug_mixins["script"]("assets/lib/@loadingio/ldquery/main/index.js");
 pug_mixins["script"]("assets/lib/ldcover/main/index.js");
 pug_mixins["script"]("assets/lib/ldslider/dev/index.min.js");
@@ -210,9 +256,13 @@ pug_html = pug_html + "\u003Cscript src=\"js\u002Findex.js\" type=\"module\"\u00
         locals_for_with.defer :
         typeof defer !== 'undefined' ? defer : undefined, "escape" in locals_for_with ?
         locals_for_with.escape :
-        typeof escape !== 'undefined' ? escape : undefined, "libLoader" in locals_for_with ?
+        typeof escape !== 'undefined' ? escape : undefined, "hashfile" in locals_for_with ?
+        locals_for_with.hashfile :
+        typeof hashfile !== 'undefined' ? hashfile : undefined, "libLoader" in locals_for_with ?
         locals_for_with.libLoader :
-        typeof libLoader !== 'undefined' ? libLoader : undefined, "scriptLoader" in locals_for_with ?
+        typeof libLoader !== 'undefined' ? libLoader : undefined, "md5" in locals_for_with ?
+        locals_for_with.md5 :
+        typeof md5 !== 'undefined' ? md5 : undefined, "scriptLoader" in locals_for_with ?
         locals_for_with.scriptLoader :
         typeof scriptLoader !== 'undefined' ? scriptLoader : undefined, "url" in locals_for_with ?
         locals_for_with.url :
